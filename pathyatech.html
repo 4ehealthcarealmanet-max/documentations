@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PathyaTech Developer Documentation Hub</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Mermaid JS -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  
+  <script>
+    // Initial theme setup to prevent Flash of Unstyled Content (FOUC)
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  </script>
+
+  <style>
+    /* CSS Variables for Premium Light Theme (Default) */
+    :root {
+      --bg-primary: #f8fafc;
+      --bg-secondary: #ffffff;
+      --bg-sidebar: #f1f5f9;
+      --accent-blue: #0284c7;
+      --accent-green: #059669;
+      --accent-purple: #7c3aed;
+      --accent-pink: #db2777;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border-color: rgba(15, 23, 42, 0.08);
+      --glass-bg: rgba(255, 255, 255, 0.85);
+      --glass-shadow: 0 8px 32px 0 rgba(15, 23, 42, 0.04);
+      --transition-speed: 0.3s;
+      --accordion-bg: rgba(15, 23, 42, 0.02);
+      --accordion-hover: rgba(15, 23, 42, 0.04);
+      --table-header-bg: rgba(15, 23, 42, 0.02);
+    }
+
+    /* CSS Variables for Premium Dark Theme */
+    [data-theme="dark"] {
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --bg-sidebar: #0b0f19;
+      --accent-blue: #38bdf8;
+      --accent-green: #10b981;
+      --accent-purple: #8b5cf6;
+      --accent-pink: #ec4899;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --glass-bg: rgba(30, 41, 59, 0.7);
+      --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      --accordion-bg: rgba(255, 255, 255, 0.02);
+      --accordion-hover: rgba(255, 255, 255, 0.05);
+      --table-header-bg: rgba(255, 255, 255, 0.02);
+    }
+
+    /* Reset & Base Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background-color var(--transition-speed), color var(--transition-speed);
+    }
+
+    /* Sidebar Navigation */
+    aside {
+      width: 290px;
+      background-color: var(--bg-sidebar);
+      border-right: 1px solid var(--border-color);
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+      transition: transform var(--transition-speed), background-color var(--transition-speed), border-color var(--transition-speed);
+    }
+    .brand {
+      padding: 24px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: #fff;
+      font-family: 'Outfit', sans-serif;
+    }
+    .brand-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--text-main), var(--text-muted));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .theme-toggle {
+      background: none;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: all var(--transition-speed);
+    }
+    .theme-toggle:hover {
+      color: var(--text-main);
+      border-color: var(--accent-blue);
+      background-color: var(--border-color);
+    }
+    .theme-toggle svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+    .search-box {
+      padding: 16px 20px;
+      position: relative;
+    }
+    .search-box input {
+      width: 100%;
+      padding: 10px 14px 10px 36px;
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-main);
+      font-size: 0.875rem;
+      transition: border-color var(--transition-speed), background-color var(--transition-speed), color var(--transition-speed);
+      outline: none;
+    }
+    .search-box input:focus {
+      border-color: var(--accent-blue);
+    }
+    .search-box svg {
+      position: absolute;
+      left: 32px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      fill: var(--text-muted);
+    }
+    nav {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    nav ul {
+      list-style: none;
+    }
+    nav li {
+      margin-bottom: 8px;
+    }
+    nav a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all var(--transition-speed);
+    }
+    nav a:hover, nav a.active {
+      color: var(--text-main);
+      background-color: var(--border-color);
+    }
+    nav a.active {
+      border-left: 3px solid var(--accent-blue);
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+    nav .section-header {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      opacity: 0.6;
+      padding: 12px 14px 6px;
+      font-weight: 700;
+    }
+
+    /* Main Content Area */
+    main {
+      margin-left: 290px;
+      flex: 1;
+      padding: 40px 60px;
+      max-width: 1200px;
+      transition: padding var(--transition-speed);
+    }
+    header {
+      margin-bottom: 48px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 24px;
+    }
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.75rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, var(--text-main) 30%, var(--accent-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    header p {
+      color: var(--text-muted);
+      font-size: 1.125rem;
+      line-height: 1.6;
+    }
+
+    /* Section Cards */
+    section {
+      padding: 24px 0;
+      margin-bottom: 48px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    h2::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 24px;
+      background: linear-gradient(to bottom, var(--accent-blue), var(--accent-purple));
+      border-radius: 2px;
+    }
+    h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 24px 0 12px;
+      color: var(--text-main);
+    }
+    p {
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 16px;
+      font-size: 0.975rem;
+    }
+
+    /* Alert Blocks */
+    .alert-block {
+      background-color: rgba(2, 132, 199, 0.05);
+      border-left: 4px solid var(--accent-blue);
+      padding: 16px 20px;
+      border-radius: 0 8px 8px 0;
+      margin: 20px 0;
+    }
+    .alert-block.important {
+      background-color: rgba(124, 58, 237, 0.05);
+      border-left-color: var(--accent-purple);
+    }
+    .alert-block.warning {
+      background-color: rgba(219, 39, 119, 0.05);
+      border-left-color: var(--accent-pink);
+    }
+    .alert-block p {
+      margin-bottom: 0;
+      font-size: 0.95rem;
+      color: var(--text-main);
+    }
+
+    /* Grid Layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+    .card {
+      background-color: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: var(--glass-shadow);
+      transition: transform var(--transition-speed), border-color var(--transition-speed), background-color var(--transition-speed);
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(2, 132, 199, 0.3);
+    }
+    .card-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-title svg {
+      width: 20px;
+      height: 20px;
+      fill: var(--accent-blue);
+    }
+
+    /* Architecture Visual Diagram */
+    .arch-diagram-wrapper {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 32px;
+      margin: 24px 0;
+      overflow-x: auto;
+      transition: background-color var(--transition-speed);
+    }
+    .mermaid {
+      background-color: transparent !important;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    /* Tabs & Accordions for Lifecycles */
+    .tabs-wrapper {
+      margin-top: 24px;
+    }
+    .tabs {
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 12px;
+      margin-bottom: 24px;
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      padding: 8px 16px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: all var(--transition-speed);
+    }
+    .tab-btn:hover {
+      color: var(--text-main);
+      background-color: var(--border-color);
+    }
+    .tab-btn.active {
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+    .accordion-item {
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      margin-bottom: 12px;
+      overflow: hidden;
+      background-color: var(--bg-secondary);
+    }
+    .accordion-header {
+      background-color: var(--accordion-bg);
+      padding: 16px 20px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background-color var(--transition-speed);
+    }
+    .accordion-header:hover {
+      background-color: var(--accordion-hover);
+    }
+    .accordion-header::after {
+      content: '+';
+      font-size: 1.2rem;
+      transition: transform var(--transition-speed);
+    }
+    .accordion-item.active .accordion-header::after {
+      content: '−';
+    }
+    .accordion-body {
+      padding: 20px;
+      background-color: var(--bg-primary);
+      display: none;
+      border-top: 1px solid var(--border-color);
+    }
+    .accordion-item.active .accordion-body {
+      display: block;
+    }
+
+    /* Lists & Tables */
+    ul.check-list {
+      list-style: none;
+      margin-bottom: 16px;
+    }
+    ul.check-list li {
+      position: relative;
+      padding-left: 28px;
+      margin-bottom: 8px;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+    ul.check-list li::before {
+      content: '✓';
+      position: absolute;
+      left: 4px;
+      color: var(--accent-green);
+      font-weight: 700;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 0.9rem;
+    }
+    th, td {
+      padding: 14px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+    th {
+      background-color: var(--table-header-bg);
+      font-weight: 600;
+      color: var(--text-main);
+    }
+    tr:hover td {
+      background-color: var(--accordion-bg);
+    }
+
+    /* Code Blocks (Always styled dark for maximum readability) */
+    pre {
+      background-color: #0b0f19;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 18px;
+      overflow-x: auto;
+      margin: 16px 0;
+      position: relative;
+    }
+    code {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      color: #e2e8f0;
+      line-height: 1.5;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      color: #94a3b8;
+      padding: 4px 8px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all var(--transition-speed);
+    }
+    .copy-btn:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+      color: #fff;
+    }
+
+    /* Utility badges */
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .badge.get { background-color: rgba(2, 132, 199, 0.1); color: var(--accent-blue); }
+    .badge.post { background-color: rgba(5, 150, 105, 0.1); color: var(--accent-green); }
+    .badge.patch { background-color: rgba(124, 58, 237, 0.1); color: var(--accent-purple); }
+    .badge.delete { background-color: rgba(219, 39, 119, 0.1); color: var(--accent-pink); }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Mobile Overlay ── */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 99;
+      backdrop-filter: blur(2px);
+    }
+    .sidebar-overlay.active { display: block; }
+
+    /* ── Mobile top bar ── */
+    .mobile-topbar {
+      display: none;
+      position: sticky;
+      top: 0;
+      z-index: 98;
+      height: 56px;
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+    }
+    .mobile-topbar .brand-name { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 15px; color: var(--text-main); }
+    .hamburger {
+      background: none;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 992px) {
+      aside {
+        transform: translateX(-100%);
+        transition: transform 0.3s cubic-bezier(.4,0,.2,1);
+        box-shadow: 4px 0 24px rgba(0,0,0,0.15);
+      }
+      aside.open { transform: translateX(0); }
+
+      .mobile-topbar { display: flex; }
+
+      main {
+        margin-left: 0;
+        padding: 20px 16px;
+      }
+
+      h1 { font-size: 2rem; }
+      h2 { font-size: 1.4rem; }
+      h3 { font-size: 1.1rem; }
+
+      table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        font-size: 0.82rem;
+      }
+      pre { font-size: 0.78rem; padding: 12px; }
+      .mermaid { overflow-x: auto; }
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      main { padding: 16px 12px; }
+      h1 { font-size: 1.6rem; letter-spacing: -0.5px; }
+    }
+
+    /* Back to home link */
+    .back-home-link {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 20px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border-color);
+      transition: color var(--transition-speed), background var(--transition-speed);
+    }
+    .back-home-link:hover { color: var(--accent-blue); background: var(--border-color); }
+    .back-home-link svg { width: 14px; height: 14px; fill: currentColor; }
+  </style>
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- Mobile Top Bar -->
+<div class="mobile-topbar" id="mobile-topbar">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <div class="brand-logo" style="width:28px;height:28px;font-size:14px;">P</div>
+    <span class="brand-name">PathyaTech Docs</span>
+  </div>
+  <button class="hamburger" onclick="toggleSidebar()">
+    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+  </button>
+</div>
+
+  <!-- Sidebar -->
+  <aside>
+    <div class="brand">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div class="brand-logo">P</div>
+        <div class="brand-name">PathyaTech Docs</div>
+      </div>
+      <button class="theme-toggle" id="theme-toggle-btn" onclick="toggleTheme()" title="Toggle Theme">
+      </button>
+    </div>
+    <a class="back-home-link" href="home.html">
+      <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+      Back to Home
+    </a>
+    
+    <div class="search-box">
+      <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      <input type="text" placeholder="Search topics..." id="search-input" onkeyup="filterDocs()">
+    </div>
+
+    <nav>
+      <ul>
+        <li class="section-header">Getting Started</li>
+        <li><a href="#overview" class="nav-link active">Overview</a></li>
+        <li><a href="#setup" class="nav-link">Setup & Install</a></li>
+        <li><a href="#launch-roadmap" class="nav-link">Launch Roadmap</a></li>
+
+        <li class="section-header">Architecture</li>
+        <li><a href="#architecture" class="nav-link">System Topology</a></li>
+        <li><a href="#integrations" class="nav-link">Integrations</a></li>
+
+        <li class="section-header">Backend REST API</li>
+        <li><a href="#backend-structure" class="nav-link">Backend Core</a></li>
+        <li><a href="#backend-apis" class="nav-link">API Routes</a></li>
+        <li><a href="#django-admin" class="nav-link">Admin Configurations</a></li>
+
+        <li class="section-header">Diagnostics & Diet</li>
+        <li><a href="#lab-module" class="nav-link">Lab Module Reference</a></li>
+        <li><a href="#trackintake" class="nav-link">TrackIntake Sync</a></li>
+
+        <li class="section-header">Frontend Next.js</li>
+        <li><a href="#frontend-structure" class="nav-link">Frontend Core</a></li>
+        <li><a href="#frontend-state" class="nav-link">State & Styles</a></li>
+
+        <li class="section-header">Lifecycles</li>
+        <li><a href="#actor-lifecycles" class="nav-link">Actor Workflows</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main>
+    
+    <!-- Header -->
+    <header>
+      <h1>PathyaTech Developer Hub</h1>
+      <p>The comprehensive tech stack reference, system layouts, workflows, and developer guide for the PathyaTech healthcare platform.</p>
+    </header>
+
+    <!-- Overview -->
+    <section id="overview">
+      <h2>Project Overview</h2>
+      <p>PathyaTech is an advanced full-stack healthcare ecosystem designed to link Patients, Doctors, Clinic Receptionists, and Administrators. It supports digital clinics, diagnostic test management, Gemini AI clinical reports, certified nutrition diets, and automatic notifications.</p>
+      
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            Next.js App Client
+          </div>
+          <p>Decoupled App Router client built with React Context for sessions and vanilla CSS components.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">
+            <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+            Django REST API
+          </div>
+          <p>Multi-app Python backend exposing secure REST endpoints, structured via Simple JWT and django-filter.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Setup -->
+    <section id="setup">
+      <h2>Local Setup & Install</h2>
+      <p>Configure the developer environments to launch the platform services on your local machine.</p>
+
+      <h3>1. Backend Setup & Run Guide</h3>
+      <h4>A. Prerequisites</h4>
+      <p>Python 3.10+, pip installer, and virtualenv manager.</p>
+      
+      <h4>B. Installation Steps</h4>
+      <pre><code class="language-bash"># Navigate to backend
+cd backend
+
+# Configure python venv
+python -m venv venv
+source venv/bin/activate # Linux/macOS
+# On Windows use: venv\Scripts\activate
+
+# Install packages
+pip install -r requirements.txt</code><button class="copy-btn" onclick="copyCode(this)">Copy</button></pre>
+
+      <h4>C. Environment Variables</h4>
+      <p>Create a file named <code>.env</code> in the <code>backend/</code> directory:</p>
+      <pre><code class="language-env"># =========================
+# CORE / DJANGO SETTINGS
+# =========================
+DEBUG=True
+SECRET_KEY=your-django-secret-key-here
+FRONTEND_URL=http://localhost:3000
+ALLOWED_HOSTS=localhost,127.0.0.1
+CORS_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
+
+# =========================
+# DATABASE (SUPABASE POSTGRES)
+# =========================
+DB_NAME=postgres
+DB_USER=your-db-user
+DB_PASSWORD=your-db-password
+DB_HOST=your-db-host
+DB_PORT=6543
+
+# =========================
+# PAYMENTS (RAZORPAY)
+# =========================
+RAZORPAY_KEY_ID=your-razorpay-key-id
+RAZORPAY_KEY_SECRET=your-razorpay-key-secret
+RAZORPAY_WEBHOOK_SECRET=your-razorpay-webhook-secret
+
+# =========================
+# CLOUD STORAGE (CLOUDINARY)
+# =========================
+CLOUDINARY_NAME=your-cloudinary-name
+CLOUDINARY_KEY=your-cloudinary-key
+CLOUDINARY_SECRET=your-cloudinary-secret
+CLOUDINARY_URL=your-cloudinary-url
+
+# =========================
+# COMMUNICATION (ZOOM)
+# =========================
+ZOOM_ACCOUNT_ID=your-zoom-account-id
+ZOOM_CLIENT_ID=your-zoom-client-id
+ZOOM_CLIENT_SECRET=your-zoom-client-secret
+ZOOM_SECRET_TOKEN=your-zoom-secret-token
+
+# =========================
+# AI SERVICES (GEMINI)
+# =========================
+GEMINI_KEY=your-gemini-api-key
+
+# =========================
+# EMAIL CONFIGURATION (SMTP)
+# =========================
+DEFAULT_FROM_EMAIL=your-email@gmail.com
+EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+EMAIL_HOST_USER=your-email@gmail.com
+EMAIL_HOST_PASSWORD=your-gmail-app-password</code><button class="copy-btn" onclick="copyCode(this)">Copy</button></pre>
+
+      <h4>D. Database Migrations & Run</h4>
+      <pre><code class="language-bash"># Run migrations to initialize the Supabase database
+python manage.py makemigrations
+python manage.py migrate
+
+# Create a superuser account to log into the Django Admin dashboard
+python manage.py createsuperuser
+
+# Launch the development server
+python manage.py runserver</code><button class="copy-btn" onclick="copyCode(this)">Copy</button></pre>
+      <p>The backend API will be active at <code>http://127.0.0.1:8000/</code>. View documentation pages at:</p>
+      <ul>
+        <li><strong>Swagger UI</strong>: <code>http://127.0.0.1:8000/api/docs/</code></li>
+        <li><strong>ReDoc</strong>: <code>http://127.0.0.1:8000/api/redoc/</code></li>
+      </ul>
+
+      <h3>2. Frontend Setup & Run Guide</h3>
+      <h4>A. Prerequisites</h4>
+      <p>Node.js v18.0.0+ and npm package manager.</p>
+
+      <h4>B. Installation Steps</h4>
+      <pre><code class="language-bash"># Navigate to frontend
+cd frontend
+
+# Install package modules
+npm install</code><button class="copy-btn" onclick="copyCode(this)">Copy</button></pre>
+
+      <h4>C. Environment Variables</h4>
+      <p>Create a file named <code>.env.local</code> in the <code>frontend/</code> directory:</p>
+      <pre><code class="language-env"># URL of the main Django backend
+NEXT_PUBLIC_BACKEND_URL=http://localhost:9000
+
+# URL of the Lab module backend (if separate, otherwise same as backend)
+NEXT_PUBLIC_LAB_BACKEND_URL=http://localhost:8000
+
+# URL of the TrackIntake integration service
+NEXT_PUBLIC_TRACKINTAKE_BACKEND_URL=http://localhost:7000
+
+# Razorpay Key ID for client-side checkout
+NEXT_PUBLIC_RAZORPAY_KEY_ID=rzp_test_your_key_id</code><button class="copy-btn" onclick="copyCode(this)">Copy</button></pre>
+
+      <h4>D. Launching the App</h4>
+      <pre><code class="language-bash"># Start the Next.js development server
+npm run dev</code><button class="copy-btn" onclick="copyCode(this)">Copy</button></pre>
+      <p>Open the client in your browser: <code>http://localhost:3000</code></p>
+
+      <div class="alert-block warning">
+        <p><strong>Troubleshooting tip:</strong> If database connection failures occur, verify that your local IP address is whitelisted in whitelists under Supabase network security settings.</p>
+      </div>
+    </section>
+
+    <!-- Launch Roadmap -->
+    <section id="launch-roadmap">
+      <h2>Production Launch Roadmap</h2>
+      <p>The operational checklist and architectural setups for deploying PathyaTech platform components to live production environments.</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">1. SMS OTP & Messaging Gateway</div>
+          <p>Swap local mock logs for live gateway connections (e.g. Twilio, Msg91). Register verified transactional templates under regulatory portals (DLT in India) and swap credentials:</p>
+          <pre><code class="language-env">SMS_API_KEY=your-production-gateway-secret-key
+SMS_SENDER_ID=PATHYA</code></pre>
+        </div>
+        <div class="card">
+          <div class="card-title">2. Razorpay Live Gateways</div>
+          <p>Register production API keys and register HTTPS Webhook urls pointing to: <code>https://api.pathyatech.com/api/payments/verify-payment/</code> to secure state callbacks.</p>
+          <pre><code class="language-env">RAZORPAY_KEY_ID=rzp_live_xxxxxxxxxxxxxx
+RAZORPAY_KEY_SECRET=production-secret-hash-key
+RAZORPAY_WEBHOOK_SECRET=webhook-secret-hash</code></pre>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">3. Enterprise Zoom Meetings</div>
+          <p>Generate Server-to-Server OAuth apps in Zoom App marketplace and register details under backend settings:</p>
+          <pre><code class="language-env">ZOOM_ACCOUNT_ID=your-zoom-account-id
+ZOOM_CLIENT_ID=your-zoom-client-id
+ZOOM_CLIENT_SECRET=your-zoom-client-secret</code></pre>
+        </div>
+        <div class="card">
+          <div class="card-title">4. Connection Pooling (pgBouncer)</div>
+          <p>Scale DB handles by deploying pgBouncer in front of the Supabase PostgreSQL cluster to support high concurrent API requests.</p>
+        </div>
+      </div>
+
+      <h3>Asynchronous Worker Architecture (Celery + Redis)</h3>
+      <p>Delegating heavy payloads out of standard HTTP threads prevents server choking. Celery background queues process:</p>
+      <ul class="check-list">
+        <li><strong>Gemini AI Analysis</strong>: Heavy report parsing and clinical summary evaluations.</li>
+        <li><strong>Reminders Cron (Celery Beat)</strong>: Hourly checks sending SMS alerts for upcoming slots.</li>
+        <li><strong>Media Generation</strong>: Compiling invoice and prescription PDFs on slot confirmation.</li>
+      </ul>
+
+      <pre><code class="language-python"># backend/core/celery.py configuration
+import os
+from celery import Celery
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
+app = Celery('pathyatech')
+app.config_from_object('django.conf:settings', namespace='CELERY')
+app.autodiscover_tasks()</code><button class="copy-btn" onclick="copyCode(this)">Copy</button></pre>
+    </section>
+
+    <!-- Architecture -->
+    <section id="architecture">
+      <h2>System Topology</h2>
+      <p>The network topography outlines the decoupled components connecting client UIs, core DRF services, database transactions, and cloud APIs.</p>
+
+      <div class="arch-diagram-wrapper">
+        <div class="mermaid">
+        graph TD
+            %% Clients
+            PatientUI[Next.js Patient UI]
+            DoctorUI[Next.js Doctor UI]
+            StaffUI[Next.js Receptionist UI]
+            AdminUI[Next.js Admin UI]
+        
+            %% Main API Gate
+            API[Django DRF Backend API]
+        
+            %% DB & Storage
+            DB[(Supabase PostgreSQL)]
+            Cloudinary[(Cloudinary Media Storage)]
+        
+            %% Integrations
+            Gemini[Google Gemini AI]
+            Razorpay[Razorpay Payments]
+            Zoom[Zoom Video API]
+            Comms[Twilio / WA / SMTP]
+        
+            %% Relationships
+            PatientUI -->|HTTPS / JWT Bearer| API
+            DoctorUI -->|HTTPS / JWT Bearer| API
+            StaffUI -->|HTTPS / JWT Bearer| API
+            AdminUI -->|HTTPS / JWT Bearer| API
+        
+            API -->|Read/Write| DB
+            API -->|Upload/Fetch Assets| Cloudinary
+            API -->|AI Context & Queries| Gemini
+            API -->|Initiate/Verify Orders| Razorpay
+            API -->|Create Meetings| Zoom
+            API -->|Dispatch Notifications| Comms
+        </div>
+      </div>
+
+      <h3>Detailed Component Integrations</h3>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Google Gemini AI Engine</div>
+          <p>Implements three clinical endpoints:</p>
+          <ul class="check-list">
+            <li><strong>Diagnosis Assist</strong>: Analyzes health vital metrics to output potential diagnosis cards.</li>
+            <li><strong>Report Interpreter</strong>: Translates clinical biomarker parameters into plain-text summaries.</li>
+            <li><strong>Custom Query Box</strong>: Doctor-specific consultation assistant scanning past patient files.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">Razorpay Security Gateway</div>
+          <p>Order IDs are created server-side based on database slot pricing. Checkout signatures are cryptographically validated using HMAC SHA256 before confirming bookings.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Integrations -->
+    <section id="integrations">
+      <h2>Third-Party Integrations</h2>
+      <p>PathyaTech integrates with several third-party APIs to provide rich features:</p>
+      
+      <table class="searchable">
+        <thead>
+          <tr>
+            <th>Integration</th>
+            <th>Technology/API</th>
+            <th>Usage & Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Payments</strong></td>
+            <td>Razorpay API</td>
+            <td>Consultation slots and diagnostic cart checkouts. Uses HMAC SHA256 verification.</td>
+          </tr>
+          <tr>
+            <td><strong>AI Operations</strong></td>
+            <td>Google Gemini API</td>
+            <td>Calculates diet recommendations, translates lab reports, and answers clinical queries.</td>
+          </tr>
+          <tr>
+            <td><strong>Telehealth</strong></td>
+            <td>Zoom Video API</td>
+            <td>Generates online room links automatically for confirmed slots.</td>
+          </tr>
+          <tr>
+            <td><strong>Comms</strong></td>
+            <td>Twilio / WhatsApp / SMTP</td>
+            <td>Dispatches OTPs, booking receipts, and reminders.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Backend Core -->
+    <section id="backend-structure">
+      <h2>Backend Core Architecture</h2>
+      <p>The backend logic is split across modular Django apps, integrating Supabase PostgreSQL models and REST serializers.</p>
+      
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Apps Directory Layout</div>
+          <pre><code>backend/apps/
+├── auth_app/      # Custom User model, Organization, OTPs
+├── patients/      # Vitals, lifestyles profiles, locked slots
+├── doctors/       # Profile, availability, education, bank accounts
+├── appointments/  # Availability Slots, Booking Appointments
+├── prescriptions/ # Diagnostic recommendation, medicine lines
+├── payments/      # Payment logs, refund audits, ledger
+├── documents/     # Vault storage with verification audit
+└── communication/ # Twilio, WhatsApp integration codes</code></pre>
+        </div>
+        <div class="card">
+          <div class="card-title">Relational Constraints & Database Schema</div>
+          <ul class="check-list">
+            <li><strong>Custom User</strong>: Custom email-login. Roles: <code>PATIENT</code>, <code>DOCTOR</code>, <code>DOCTOR_RECEPTIONIST</code>, <code>ADMIN</code>.</li>
+            <li><strong>DoctorProfile</strong>: Holds credentials and verification flags (<code>PENDING</code>, <code>APPROVED</code>, <code>REJECTED</code>).</li>
+            <li><strong>Slot</strong>: Core availability lines. Fields: <code>doctor</code>, <code>date</code>, <code>start_time</code>, <code>status</code> (Available, Locked, Booked).</li>
+            <li><strong>PrescribedLabTest</strong>: Linked tests. Tracks checkouts by linking to cart indices.</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Custom Permissions & Role Restrictions</h3>
+      <p>Access control permissions protect resources:</p>
+      <ul>
+        <li><code>IsDoctor</code>: Restricts access to approved doctor accounts.</li>
+        <li><code>IsReceptionist</code>: Restricts access to receptionist accounts assigned to active doctors.</li>
+        <li><code>IsPatientOwnerOrDoctorReadOnly</code>: Restricts patient vaults. Patients can edit files, but doctors can only read files if <code>shared_with_doctor</code> is toggled.</li>
+      </ul>
+    </section>
+
+    <!-- Backend APIs -->
+    <section id="backend-apis">
+      <h2>Core API Reference Map</h2>
+      <p>Developers communicate with the Django server using the following core REST routes:</p>
+      
+      <table class="searchable">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Endpoint Route</th>
+            <th>Authorized Roles</th>
+            <th>API Operations</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge post">POST</span></td>
+            <td>`/api/auth/signup/`</td>
+            <td>Public</td>
+            <td>Register account, send verification OTP</td>
+          </tr>
+          <tr>
+            <td><span class="badge post">POST</span></td>
+            <td>`/api/auth/verify-otp/`</td>
+            <td>Public</td>
+            <td>Verify phone OTP and issue JWT Token Pair</td>
+          </tr>
+          <tr>
+            <td><span class="badge post">POST</span></td>
+            <td>`/api/patients/appointments/book/`</td>
+            <td>Patient</td>
+            <td>Reserve a consultation slot and trigger Razorpay order</td>
+          </tr>
+          <tr>
+            <td><span class="badge patch">PATCH</span></td>
+            <td>`/api/patients/appointments/&lt;id&gt;/reschedule/`</td>
+            <td>Patient / Doctor</td>
+            <td>Reschedule booking (enforcing max 2 rescheduling rule)</td>
+          </tr>
+          <tr>
+            <td><span class="badge post">POST</span></td>
+            <td>`/api/doctors/appointments/&lt;id&gt;/ai-diagnosis/`</td>
+            <td>Doctor</td>
+            <td>Query Gemini AI diagnosis based on patient vitals</td>
+          </tr>
+          <tr>
+            <td><span class="badge post">POST</span></td>
+            <td>`/api/doctors/lab-reports/&lt;id&gt;/ai-analysis/`</td>
+            <td>Doctor</td>
+            <td>Query Gemini AI lab report parser for biomarkers</td>
+          </tr>
+          <tr>
+            <td><span class="badge post">POST</span></td>
+            <td>`/api/clinic/walk-in/`</td>
+            <td>Receptionist</td>
+            <td>Book walk-in patient and bypass payment verification</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Django Admin Reference -->
+    <section id="django-admin">
+      <h2>Django Admin Configurations</h2>
+      <p>Technical overview of custom inline modules, read-only permissions, and bulk operations set up in `/admin/`:</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">1. Inline Relational Modules</div>
+          <p>To reduce click-depth, parent models directly display related children lines inside details pages:</p>
+          <ul class="check-list">
+            <li><strong>User Profile Panel</strong>: Directly edit PatientProfile or DoctorProfile from User detail layouts.</li>
+            <li><strong>Doctor Profile Inlines</strong>: <code>DoctorEducationInline</code>, <code>DoctorExperienceInline</code>, <code>DoctorKeywordInline</code>, and <code>DoctorBoosterInline</code>.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">2. Read-Only Ledger Constraints</div>
+          <p>Database immutability rules prevent accidental deletions of transaction history or verification logs:</p>
+          <pre><code class="language-python"># apps/payments/admin.py example
+class PaymentAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request): return False
+    def has_delete_permission(self, request, obj=None): return False</code></pre>
+        </div>
+      </div>
+
+      <h3>3. Administrative Bulk Actions</h3>
+      <p>Select multiple rows from a model grid to execute bulk operations:</p>
+      <ul>
+        <li><strong>Approve/Reject Doctor Licenses</strong>: Approving doctor verification files automatically triggers cascades that update the parent profile's status (approved status automatically publishes the doctor to search listings).</li>
+        <li><strong>Refund Transaction Payouts</strong>: Bulk process refund transactions and notify payment gateways (Razorpay).</li>
+        <li><strong>Content Moderation</strong>: Bulk toggle doctor intro reels and case study boosts.</li>
+      </ul>
+    </section>
+
+    <!-- Lab Module Reference -->
+    <section id="lab-module">
+      <h2>Lab Module Developer Guide</h2>
+      <p>Endpoints and workflows for searching diagnostic tests, managing the shopping cart, and checking out bookings.</p>
+
+      <div class="alert-block">
+        <p><strong>Note:</strong> All Lab Module requests must be authorized with standard JWT token headers issued by the main platform.</p>
+      </div>
+
+      <table class="searchable">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Lab API Endpoint</th>
+            <th>Access Scope</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge get">GET</span></td>
+            <td>`/api/labs/public-tests/`</td>
+            <td>Public</td>
+            <td>Browse and filter diagnostic tests by category or city location.</td>
+          </tr>
+          <tr>
+            <td><span class="badge get">GET</span></td>
+            <td>`/api/labs/public-slots/`</td>
+            <td>Public</td>
+            <td>Fetch available appointment slots for clinic lab visits.</td>
+          </tr>
+          <tr>
+            <td><span class="badge post">POST</span></td>
+            <td>`/api/labs/cart/`</td>
+            <td>Patient (JWT)</td>
+            <td>Add test item to shopping cart (prevents duplicates).</td>
+          </tr>
+          <tr>
+            <td><span class="badge post">POST</span></td>
+            <td>`/api/labs/user-bookings/checkout/`</td>
+            <td>Patient (JWT)</td>
+            <td>Initiate checkout, clear cart, and generate a Razorpay order.</td>
+          </tr>
+          <tr>
+            <td><span class="badge post">POST</span></td>
+            <td>`/api/labs/user-bookings/{id}/verify-payment/`</td>
+            <td>Patient (JWT)</td>
+            <td>Submit Razorpay gateway verification params to confirm booking.</td>
+          </tr>
+          <tr>
+            <td><span class="badge post">POST</span></td>
+            <td>`/api/labs/doctor-reports/{id}/ai-analysis/`</td>
+            <td>Doctor (JWT)</td>
+            <td>Request Gemini AI clinical briefing of patient's lab results.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Sample Collection Logistics & Tracking</h3>
+      <p>For home-visit collections, track phlebotomist progress updates:</p>
+      <pre><code>SCHEDULED  ──►  PICKED  ──►  IN_TRANSIT  ──►  DELIVERED TO LAB</code></pre>
+      <p>Phlebotomist updates are logged on collection tickets and can be monitored by patients via the booking endpoints.</p>
+    </section>
+
+    <!-- TrackIntake Sync -->
+    <section id="trackintake">
+      <h2>TrackIntake Diet & Vitals Sync</h2>
+      <p>Integration mapping to synchronise biomarker records and certified diet schedules with the TrackIntake system.</p>
+
+      <div class="alert-block important">
+        <p><strong>Important:</strong> These endpoints are requested against the external TrackIntake Backend Base URL using authenticated JWT authorization.</p>
+      </div>
+
+      <table class="searchable">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>TrackIntake Integration API Route</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge post">POST</span></td>
+            <td>`/api/integration/register/`</td>
+            <td>Create UserProfile without OTP, registering onto the Free Plan.</td>
+          </tr>
+          <tr>
+            <td><span class="badge get">GET</span></td>
+            <td>`/api/integration/plans/`</td>
+            <td>Fetch active subscription tiers (e.g. Free, Standard, Premium).</td>
+          </tr>
+          <tr>
+            <td><span class="badge get">GET</span></td>
+            <td>`/api/integration/check-subscription/`</td>
+            <td>Returns subscription validation flags and plan expiry.</td>
+          </tr>
+          <tr>
+            <td><span class="badge post">POST</span></td>
+            <td>`/api/integration/lab-reports/`</td>
+            <td>Upload PDF medical file and submit biomarker metrics schema.</td>
+          </tr>
+          <tr>
+            <td><span class="badge get">GET</span></td>
+            <td>`/api/integration/diet/`</td>
+            <td>Fetch the certified 7-day meal plan (requires paid subscription).</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Biomarker JSON Submission Schema</h3>
+      <pre><code class="language-json">{
+  "report_date": "2026-05-24",
+  "weight_kg": 72.0,
+  "height_cm": 175.5,
+  "fasting_blood_sugar": 95.0,
+  "hba1c": 5.6,
+  "ldl_cholesterol": 100.0,
+  "triglycerides": 140.0,
+  "vitamin_d3": 35.0,
+  "vitamin_b12": 450.0,
+  "tsh": 2.1
+}</code><button class="copy-btn" onclick="copyCode(this)">Copy</button></pre>
+    </section>
+
+    <!-- Frontend Core -->
+    <section id="frontend-structure">
+      <h2>Frontend App Core Structure</h2>
+      <p>The client folder hierarchy is built on Next.js 14 App Router, providing layouts and view pages for each role.</p>
+      
+      <table class="searchable">
+        <thead>
+          <tr>
+            <th>Directory Node</th>
+            <th>Role Scope</th>
+            <th>UI Dashboard Content</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>`src/app/patient/`</td>
+            <td>Patient</td>
+            <td>Health profile dashboards, medical vaults, lab booking, and active diet grids.</td>
+          </tr>
+          <tr>
+            <td>`src/app/doctor/`</td>
+            <td>Doctor</td>
+            <td>Consultation agendas, operating slot setups, prescription editors, and Gemini AI panels.</td>
+          </tr>
+          <tr>
+            <td>`src/app/clinic/`</td>
+            <td>Receptionist</td>
+            <td>Walk-in registers, check-in flows, cash logs, and clinic marketing tools.</td>
+          </tr>
+          <tr>
+            <td>`src/app/platform/`</td>
+            <td>Admin</td>
+            <td>License audit pipelines, payout ledgers, and global system configuration.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Axios Client Configuration (`services/api.ts`)</h3>
+      <p>Appends JWT token headers automatically and intercepts <code>401 Unauthorized</code> responses to refresh the access token silently in the background:</p>
+      <pre><code class="language-typescript">import axios from 'axios';
+
+const api = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL
+});
+
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('access_token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});</code><button class="copy-btn" onclick="copyCode(this)">Copy</button></pre>
+    </section>
+
+    <!-- Frontend State -->
+    <section id="frontend-state">
+      <h2>Global State & Styling</h2>
+      <p>PathyaTech handles application state and layouts via lightweight, built-in frameworks:</p>
+      
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">React Context API State</div>
+          <p>Global state is managed via `AuthContext` to store logged-in user profiles, JWT tokens, and roles. This prevents prop-drilling across dashboard layouts.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">Vanilla CSS Modules</div>
+          <p>Styling uses global CSS overrides (`globals.css`) alongside route-specific modular files. This isolates view layouts and prevents CSS namespace collision.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Actor Lifecycles -->
+    <section id="actor-lifecycles">
+      <h2>Actor Lifecycles & Workflow States</h2>
+      <p>Explore the states, business rules, and technical triggers for each role in the system:</p>
+
+      <div class="tabs-wrapper">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab(event, 'patient-lc')">Patient</button>
+          <button class="tab-btn" onclick="switchTab(event, 'doctor-lc')">Doctor</button>
+          <button class="tab-btn" onclick="switchTab(event, 'receptionist-lc')">Receptionist</button>
+          <button class="tab-btn" onclick="switchTab(event, 'admin-lc')">Admin</button>
+        </div>
+
+        <!-- Patient Tab Content -->
+        <div id="patient-lc" class="tab-content active">
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">State 1: Account Creation & Onboarding</div>
+            <div class="accordion-body">
+              <p><strong>Trigger:</strong> Registers via sign-up page or receptionist portal. Status is set to `PENDING_VERIFICATION`.</p>
+              <p><strong>Action:</strong> Dispatches OTP via Twilio/SMTP. On successful validation, status moves to `ACTIVE` and issues JWT tokens.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">State 2: Profile & Vault Setups</div>
+            <div class="accordion-body">
+              <p><strong>Action:</strong> Patient configures physical stats and uploads past records. The `shared_with_doctor` flag controls if doctors can view documents.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">State 3: Booking & Slot Lock</div>
+            <div class="accordion-body">
+              <p><strong>Action:</strong> Patient locks a slot. Unpaid slots are locked for 10 minutes. Successful payment confirms booking and generates a Zoom link.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Doctor Tab Content -->
+        <div id="doctor-lc" class="tab-content">
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">State 1: Professional Audit</div>
+            <div class="accordion-body">
+              <p><strong>Trigger:</strong> Doctor signs up. Account status begins at `PENDING`. Uploads medical licenses to `EntityDocument` for review.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">State 2: Clinic Agenda Configurations</div>
+            <div class="accordion-body">
+              <p><strong>Action:</strong> Sets operating slots via the availability calendar. This populates database `Slot` rows available for booking.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">State 3: Clinical Consultations & AI Interpretation</div>
+            <div class="accordion-body">
+              <p><strong>Action:</strong> Reviews patient files, drafts prescriptions, and runs Gemini AI diagnostics or lab report interpreters.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Receptionist Tab Content -->
+        <div id="receptionist-lc" class="tab-content">
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">State 1: Account Setup</div>
+            <div class="accordion-body">
+              <p><strong>Trigger:</strong> Onboarded by admin and linked to a clinic doctor using a `DoctorAssignment` record.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">State 2: Walk-In Reception & Cash Billing</div>
+            <div class="accordion-body">
+              <p><strong>Action:</strong> Registers walk-in patients and schedules slots. Confirms appointments directly by logging offline CASH payments.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Admin Tab Content -->
+        <div id="admin-lc" class="tab-content">
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">State 1: Administrative Control</div>
+            <div class="accordion-body">
+              <p><strong>Action:</strong> Manages users, verifies doctor profiles/credentials, handles payout accounts, and moderates clinic marketing content.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Detailed Workflow Logic Rules</h3>
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">1. Rescheduling Rules</div>
+        <div class="accordion-body">
+          <ul class="check-list">
+            <li><strong>Limits</strong>: Maximum of 2 reschedules per appointment.</li>
+            <li><strong>Time Gate</strong>: Patients must reschedule at least 3 hours before start time. Doctors can reschedule up to start time.</li>
+            <li><strong>State Gate</strong>: Only allowed on <code>CONFIRMED</code> or <code>PENDING_PAYMENT</code> appointments.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">2. Verification Cascade logic</div>
+        <div class="accordion-body">
+          <p>Document validations directly control profile states:</p>
+          <ul class="check-list">
+            <li><strong>Approve Cascade</strong>: If all credentials in <code>EntityDocument</code> are marked <code>VERIFIED</code>, doctor profile becomes <code>APPROVED</code> and is published.</li>
+            <li><strong>Reject Cascade</strong>: If any single document is marked <code>REJECTED</code>, doctor profile becomes <code>REJECTED</code>, blocking their calendar.</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Appointment Booking Sequence Flow</h3>
+      <div class="arch-diagram-wrapper">
+        <div class="mermaid">
+        sequenceDiagram
+            autonumber
+            actor Patient
+            actor Receptionist
+            actor Doctor
+            participant System as DRF API + DB
+            participant Razorpay as Razorpay API
+            participant Zoom as Zoom Meetings API
+        
+            %% Booking flow
+            Patient->>System: Request booking slot (Lock Slot)
+            System->>System: Transaction locked for 10 minutes
+            System->>Razorpay: Generate payment order details
+            System-->>Patient: Return order ID & Client Key
+            Patient->>Razorpay: Submit payment details
+            Razorpay-->>Patient: Return payment ID & Signature
+            Patient->>System: Submit Payment ID, Order ID & Signature
+            System->>System: Verify signature (HMAC SHA256)
+            alt Verification Success
+                System->>Zoom: Generate ONLINE meeting link
+                Zoom-->>System: Return meeting URL & details
+                System->>System: Mark slot BOOKED, appointment CONFIRMED
+                System->>Patient: Send Email/SMS Confirmation
+            else Verification Failed
+                System->>System: Rollback slot Lock
+                System-->>Patient: Display Booking Error
+            end
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Tab switching logic
+    function switchTab(evt, tabId) {
+      const tabcontents = document.getElementsByClassName("tab-content");
+      for (let i = 0; i < tabcontents.length; i++) {
+        tabcontents[i].classList.remove("active");
+      }
+      const tablinks = document.getElementsByClassName("tab-btn");
+      for (let i = 0; i < tablinks.length; i++) {
+        tablinks[i].classList.remove("active");
+      }
+      document.getElementById(tabId).classList.add("active");
+      evt.currentTarget.classList.add("active");
+    }
+
+    // Accordion toggle logic
+    function toggleAccordion(headerElement) {
+      const accordionItem = headerElement.parentElement;
+      accordionItem.classList.toggle("active");
+    }
+
+    // Copy code button logic
+    function copyCode(btn) {
+      const codeElement = btn.previousElementSibling;
+      const range = document.createRange();
+      range.selectNode(codeElement);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+      try {
+        document.execCommand('copy');
+        btn.innerText = 'Copied!';
+        setTimeout(() => { btn.innerText = 'Copy'; }, 2000);
+      } catch (err) {
+        console.error('Failed to copy text', err);
+      }
+      window.getSelection().removeAllRanges();
+    }
+
+    // Sidebar nav active class toggle on click & smooth scroll to target
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        navLinks.forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+        
+        const targetId = this.getAttribute('href').substring(1);
+        const targetSection = document.getElementById(targetId);
+        if (targetSection) {
+          window.scrollTo({
+            top: targetSection.offsetTop - 20,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // Interactive Search Filtering
+    function filterDocs() {
+      const input = document.getElementById('search-input');
+      const filter = input.value.toLowerCase();
+      
+      // Filter list elements
+      const sections = document.getElementsByTagName('section');
+      for (let i = 0; i < sections.length; i++) {
+        const text = sections[i].textContent.toLowerCase();
+        if (text.includes(filter)) {
+          sections[i].style.display = "";
+        } else {
+          sections[i].style.display = "none";
+        }
+      }
+    }
+
+    // Theme toggle handling
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateThemeToggleBtn(newTheme);
+      
+      // Reload page to re-render Mermaid diagram correctly with the new theme
+      window.location.reload();
+    }
+
+    function updateThemeToggleBtn(theme) {
+      const btn = document.getElementById('theme-toggle-btn');
+      if (!btn) return;
+      if (theme === 'dark') {
+        btn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-12.37c-.39-.39-1.02-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06c.39-.38.39-1.02 0-1.41zm-12.37 12.37c-.39-.39-1.02-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06c.39-.38.39-1.02 0-1.41z"/></svg>`;
+      } else {
+        btn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M12.3 2c-.15 0-.29.08-.37.2-.08.13-.07.29.02.4C13.45 4.1 14 5.97 14 8c0 3.31-2.69 6-6 6-2.03 0-3.9-.55-5.4-1.5-.11-.09-.27-.1-.4-.02-.12.08-.2.22-.2.37C2 17.54 6.46 22 12 22c5.52 0 10-4.48 10-10 0-5.54-4.46-10-9.7-10z"/></svg>`;
+      }
+    }
+
+    // Initialize toggle icon
+    updateThemeToggleBtn(savedTheme);
+
+    // Initialize Mermaid based on active theme
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: savedTheme === 'dark' ? 'dark' : 'default',
+      securityLevel: 'loose',
+      themeVariables: {
+        background: savedTheme === 'dark' ? '#1e293b' : '#ffffff',
+        primaryColor: savedTheme === 'dark' ? '#0f172a' : '#f1f5f9',
+        primaryTextColor: savedTheme === 'dark' ? '#f8fafc' : '#0f172a',
+        lineColor: savedTheme === 'dark' ? '#38bdf8' : '#0284c7',
+        primaryBorderColor: savedTheme === 'dark' ? '#38bdf8' : '#0284c7',
+        nodeBorder: savedTheme === 'dark' ? '#38bdf8' : '#0284c7'
+      }
+    });
+  </script>
+
+  <script>
+    // Sidebar toggle
+    function toggleSidebar() {
+      const aside = document.querySelector('aside');
+      const overlay = document.getElementById('sidebar-overlay');
+      const isOpen = aside.classList.toggle('open');
+      overlay.classList.toggle('active', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    }
+    function closeSidebar() {
+      document.querySelector('aside').classList.remove('open');
+      document.getElementById('sidebar-overlay').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    // Close on nav link click (mobile)
+    document.querySelectorAll('nav a').forEach(a => {
+      a.addEventListener('click', () => { if(window.innerWidth <= 992) closeSidebar(); });
+    });
+  </script>
+</body>
+</html>

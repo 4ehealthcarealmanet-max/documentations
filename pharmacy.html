@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pharmacy Module Documentation Portal</title>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Marked.js for Markdown Parsing -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <!-- Mermaid.js for Diagrams (ESM module loaded in head) -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'neutral',
+      securityLevel: 'loose',
+      flowchart: { useMaxWidth: true, htmlLabels: true }
+    });
+    window.mermaid = mermaid;
+    window.dispatchEvent(new Event('mermaid-ready'));
+  </script>
+  <style>
+    /* ==========================================================================
+       Premium Light Theme / Complete White Mode Stylesheet
+       ========================================================================== */
+    :root {
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8fafc;
+      --bg-active: #f1f5f9;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #94a3b8;
+      --accent: #0d9488;
+      --accent-hover: #0f766e;
+      --accent-light: #f0fdfa;
+      --border: #e2e8f0;
+      --code-bg: #f8fafc;
+      --code-border: #e2e8f0;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      --sidebar-width: 280px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Layout Structure */
+    #sidebar {
+      width: var(--sidebar-width);
+      background-color: var(--bg-primary);
+      border-right: 1px solid var(--border);
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease;
+    }
+
+    #main-panel {
+      flex: 1;
+      margin-left: var(--sidebar-width);
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    /* Top bar */
+    #top-bar {
+      height: 4rem;
+      background-color: var(--bg-primary);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+    }
+
+    /* Brand Logo / Section */
+    .brand-section {
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-logo {
+      width: 2rem;
+      height: 2rem;
+      background: linear-gradient(135deg, var(--accent), #14b8a6);
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    .brand-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.025em;
+    }
+
+    /* Navigation list */
+    .nav-list {
+      list-style: none;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .nav-item button {
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      padding: 0.75rem 1rem;
+      border-radius: 0.375rem;
+      color: var(--text-secondary);
+      font-size: 0.925rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      transition: all 0.2s ease;
+    }
+
+    .nav-item button:hover {
+      background-color: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+
+    .nav-item.active button {
+      background-color: var(--accent-light);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* Search Input Wrapper */
+    .search-wrapper {
+      position: relative;
+      width: 320px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.5rem 1rem 0.5rem 2.25rem;
+      border-radius: 9999px;
+      border: 1px solid var(--border);
+      background-color: var(--bg-secondary);
+      color: var(--text-primary);
+      font-size: 0.875rem;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .search-input:focus {
+      background-color: var(--bg-primary);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+      width: 1rem;
+      height: 1rem;
+    }
+
+    /* Search Dropdown Panel */
+    .search-results {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      margin-top: 0.5rem;
+      max-height: 300px;
+      overflow-y: auto;
+      box-shadow: var(--shadow-md);
+      display: none;
+      z-index: 100;
+    }
+
+    .search-results.active {
+      display: block;
+    }
+
+    .search-result-item {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .search-result-item:last-child {
+      border-bottom: none;
+    }
+
+    .search-result-item:hover {
+      background-color: var(--bg-secondary);
+    }
+
+    .search-result-page {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 0.125rem;
+    }
+
+    .search-result-section {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .search-result-text {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .search-result-text mark {
+      background-color: #fef08a;
+      color: #854d0e;
+      padding: 0 2px;
+      border-radius: 2px;
+    }
+
+    /* Main Content Wrapper */
+    .content-container {
+      display: flex;
+      padding: 3rem 2rem;
+      gap: 3rem;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      flex: 1;
+    }
+
+    #content-area {
+      flex: 1;
+      min-width: 0;
+      animation: fadeIn 0.25s ease-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Table of Contents */
+    #toc {
+      width: 240px;
+      position: sticky;
+      top: 6rem;
+      align-self: flex-start;
+      max-height: calc(100vh - 8rem);
+      overflow-y: auto;
+      padding-left: 1.5rem;
+      border-left: 1px solid var(--border);
+      display: none;
+    }
+
+    @media (min-width: 1024px) {
+      #toc {
+        display: block;
+      }
+    }
+
+    .toc-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.75rem;
+    }
+
+    .toc-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .toc-item {
+      font-size: 0.875rem;
+    }
+
+    .toc-item a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.15s ease;
+      display: block;
+      line-height: 1.4;
+    }
+
+    .toc-item a:hover {
+      color: var(--accent);
+    }
+
+    .toc-item.h2 {
+      padding-left: 0;
+      font-weight: 500;
+    }
+
+    .toc-item.h3 {
+      padding-left: 0.75rem;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    /* Markdown Prose Styling */
+    .prose h1 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.03em;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.75rem;
+    }
+
+    .prose h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .prose h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .prose p {
+      margin-bottom: 1.25rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .prose ul, .prose ol {
+      margin-bottom: 1.25rem;
+      padding-left: 1.5rem;
+      color: var(--text-secondary);
+    }
+
+    .prose li {
+      margin-bottom: 0.375rem;
+      line-height: 1.6;
+    }
+
+    .prose code {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85em;
+      background-color: var(--code-bg);
+      border: 1px solid var(--code-border);
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      color: #e11d48;
+    }
+
+    .prose pre {
+      background-color: #0f172a;
+      border-radius: 0.5rem;
+      padding: 1.25rem;
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+      border: 1px solid #1e293b;
+    }
+
+    .prose pre code {
+      color: #f8fafc;
+      background-color: transparent;
+      border: none;
+      padding: 0;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .prose blockquote {
+      border-left: 4px solid var(--accent);
+      background-color: var(--bg-secondary);
+      padding: 0.75rem 1.25rem;
+      margin-bottom: 1.5rem;
+      border-radius: 0 0.375rem 0.375rem 0;
+    }
+
+    .prose blockquote p {
+      margin-bottom: 0;
+      font-style: italic;
+      color: var(--text-secondary);
+    }
+
+    .prose table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    .prose th, .prose td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+
+    .prose th {
+      background-color: var(--bg-secondary);
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .prose tr:hover td {
+      background-color: var(--bg-secondary);
+    }
+
+    /* Mermaid diagrams container */
+    .mermaid {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* Mobile toggle and responsive overrides */
+    #mobile-header {
+      display: none;
+      height: 4rem;
+      background-color: var(--bg-primary);
+      border-bottom: 1px solid var(--border);
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 60;
+    }
+
+    .hamburger {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-primary);
+    }
+
+    /* ── Mobile Overlay ── */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 49;
+      backdrop-filter: blur(2px);
+    }
+    .sidebar-overlay.active { display: block; }
+
+    @media (max-width: 768px) {
+      #sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s cubic-bezier(.4,0,.2,1);
+        box-shadow: 4px 0 24px rgba(0,0,0,0.1);
+      }
+      #sidebar.open { transform: translateX(0); }
+      #main-panel { margin-left: 0; }
+      #mobile-header { display: flex; }
+      #top-bar { display: none; }
+
+      .content-container {
+        padding: 1rem;
+        gap: 0;
+        flex-direction: column;
+      }
+
+      #toc { display: none !important; }
+
+      .prose h1 { font-size: 1.6rem; }
+      .prose h2 { font-size: 1.25rem; }
+      .prose h3 { font-size: 1.05rem; }
+
+      .prose table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        font-size: 0.8rem;
+      }
+      .prose pre { font-size: 0.8rem; padding: 0.85rem; }
+      .mermaid { overflow-x: auto; }
+    }
+
+    @media (max-width: 400px) {
+      .prose h1 { font-size: 1.35rem; }
+      #mobile-header { padding: 0 1rem; }
+    }
+
+    /* Back to home */
+    .back-home {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 1.5rem;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.2s, background 0.2s;
+    }
+    .back-home:hover { color: var(--accent); background: var(--accent-light); }
+    .back-home svg { width: 14px; height: 14px; }
+  </style>
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+  <!-- Mobile Header -->
+  <div id="mobile-header">
+    <div class="brand-section" style="padding: 0; border: none;">
+      <div class="brand-logo">P</div>
+      <div class="brand-title">Pharmacy Docs</div>
+    </div>
+    <button class="hamburger" onclick="toggleSidebar()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg>
+    </button>
+  </div>
+
+  <!-- Sidebar -->
+  <aside id="sidebar">
+    <div class="brand-section">
+      <div class="brand-logo">P</div>
+      <div class="brand-title">Pharmacy Module</div>
+    </div>
+    <a class="back-home" href="home.html">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      Back to Home
+    </a>
+    <nav class="nav-list">
+      <li class="nav-item active" id="nav-architecture">
+        <button onclick="loadPage('architecture')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+          Architecture
+        </button>
+      </li>
+      <li class="nav-item" id="nav-api-reference">
+        <button onclick="loadPage('api-reference')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+          API Reference
+        </button>
+      </li>
+      <li class="nav-item" id="nav-frontend-guide">
+        <button onclick="loadPage('frontend-guide')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" x2="16" y1="21" y2="21"></line><line x1="12" x2="12" y1="17" y2="21"></line></svg>
+          Frontend Guide
+        </button>
+      </li>
+      <li class="nav-item" id="nav-setup-and-maintenance">
+        <button onclick="loadPage('setup-and-maintenance')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          Setup & Maintenance
+        </button>
+      </li>
+      <li class="nav-item" id="nav-actor-workflows">
+        <button onclick="loadPage('actor-workflows')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></circle><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          Actor Workflows
+        </button>
+      </li>
+    </nav>
+  </aside>
+
+  <!-- Main Panel -->
+  <main id="main-panel">
+    <!-- Top bar with Search -->
+    <header id="top-bar">
+      <div></div>
+      <div class="search-wrapper">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" class="search-input" id="search-box" placeholder="Search documentation..." oninput="handleSearch(this.value)">
+        <div class="search-results" id="search-results-panel"></div>
+      </div>
+    </header>
+
+    <!-- Content Layout -->
+    <div class="content-container">
+      <article id="content-area" class="prose"></article>
+      <aside id="toc">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list" id="toc-list-ul"></ul>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Embedded Raw Document Text (Ensures CORS/local file functionality) -->
+  <script type="text/plain" id="doc-architecture">
+# Pharmacy Module - System Architecture
+
+This document details the system architecture, database isolation, and entity schemas of the Pharmacy Module.
+
+## 1. Architectural Overview
+
+The Pharmacy Module is designed as an isolated component sharing a single Postgres database with other platform modules (like Consultation/Lab). It enforces table-level isolation through prefixed database tables, independent session cookies, and runtime database registry redirection.
+
+### Key Isolation Characteristics
+* **Table Prefixes**: All database tables for this module are prefixed with `pharmacy_` to avoid collisions with the main application or other isolated modules.
+* **Shared-DB Isolation**: Using Django configurations, the module redirects core tables (such as Django ContentType and Session tables) to module-specific tables.
+* **Stateless Token Authentication**: Authentication is powered by JSON Web Tokens (JWT) signed by a shared cryptographic secret, allowing secure cross-module user resolution.
+
+```mermaid
+graph TD
+    subgraph Frontend [Next.js Client]
+        FA[Admin Panel]
+        FO[Operator Dashboard]
+        FS[Staff Panel]
+    end
+
+    subgraph Backend [Django Rest API]
+        Auth[Auth Module]
+        Org[Organizations]
+        Med[Medicine Catalog]
+        Cart[Cart & Scheduling]
+        Order[Order Orchestration]
+        Pay[Razorpay Integration]
+        Doc[Cloudinary Document Verification]
+    end
+
+    subgraph Database [Shared Postgres Database]
+        direction LR
+        S1[(Main App Tables)]
+        S2[(Pharmacy Prefix Tables)]
+    end
+
+    FA --> Backend
+    FO --> Backend
+    FS --> Backend
+    Auth --> S2
+    Org --> S2
+    Med --> S2
+    Cart --> S2
+    Order --> S2
+    Pay --> S2
+    Doc --> S2
+    Order -.-> S1
+```
+
+---
+
+## 2. Core Entities & Data Models
+
+### 2.1 Authentication & Memberships
+
+#### `PharmacyUser` (Table: `pharmacy_user`)
+Custom user model replacing the default Django user model for administrative and operational staff.
+* **`id`**: `BigAutoField` (Primary Key)
+* **`email`**: `EmailField` (Unique, Username)
+* **`name`**: `CharField` (Full Name)
+* **`phone`**: `CharField`
+* **`role`**: `CharField` (`PHARMACY_ADMIN`, `PHARMACY_STAFF`, `PHARMACY_OPERATOR`)
+* **`status`**: `CharField` (`ACTIVE`, `INACTIVE` for OTP verification status)
+
+#### `PharmacyOrganizationMembership` (Table: `pharmacy_organization_membership`)
+Maps users to specific organizations with roles.
+* **`user`**: ForeignKey to `PharmacyUser`
+* **`organization`**: ForeignKey to `PharmacyOrganization`
+* **`role`**: `CharField` (`ADMIN`, `MEMBER`)
+* **`is_active`**: `BooleanField` (Default: `True`)
+
+#### `PharmacyOTP` (Table: `pharmacy_otp`)
+Stores transient OTP codes for email verification and password resets.
+* **`user`**: ForeignKey to `PharmacyUser`
+* **`otp`**: `CharField` (6-digit code)
+* **`created_at`**: `DateTimeField` (auto-now)
+
+---
+
+### 2.2 Organizations & Catalog
+
+#### `PharmacyOrganization` (Table: `pharmacy_organization`)
+Entities providing services (Pharmacies, Clinics, Hospitals, NGOs).
+* **`id`**: `UUIDField` (Primary Key)
+* **`name`**: `CharField`
+* **`type`**: `CharField` (`CLINIC`, `HOSPITAL`, `PHARMACY`, `NGO`)
+* **`registration_number`**: `CharField` (Unique)
+* **`license_number`**: `CharField` (Unique)
+* **`address_line1` / `address_line2`**: `CharField`
+* **`city` / `state` / `country` / `postal_code`**: `CharField`
+* **`latitude` / `longitude`**: `DecimalField`
+* **`status`**: `CharField` (`ACTIVE`, `INACTIVE`)
+* **`verification_status`**: `CharField` (`PENDING`, `VERIFIED`, `REJECTED`)
+* **`verified_by`**: ForeignKey to `PharmacyUser`
+* **`verified_at`**: `DateTimeField`
+
+#### `PharmacyMedicine` (Table: `pharmacy_medicine`)
+Individual items in the catalog for each pharmacy.
+* **`id`**: `UUIDField` (Primary Key)
+* **`pharmacy`**: ForeignKey to `PharmacyOrganization`
+* **`name`**: `CharField`
+* **`category`**: `CharField`
+* **`description`**: `TextField`
+* **`price`**: `DecimalField` (Base Price)
+* **`discount_price`**: `DecimalField` (Optional Promotional Price)
+* **`fasting_required`**: `BooleanField`
+* **`home_collection_available`**: `BooleanField`
+* **`turnaround_time`**: `CharField` (e.g. "24 Hours")
+* **`is_active`**: `BooleanField`
+
+---
+
+### 2.3 Cart & Order Management
+
+#### `PharmacyCartItem` (Table: `pharmacy_cart`)
+Stateless cart items stored for patients.
+* **`id`**: `UUIDField` (Primary Key)
+* **`patient_id`**: `UUIDField` (Linked to cross-module `Patient` user)
+* **`pharmacy_medicine`**: ForeignKey to `PharmacyMedicine`
+* **`collection_type`**: `CharField` (`HOME`, `PHARMACY_VISIT`)
+* **`appointment_date`**: `DateField`
+* **`slot`**: ForeignKey to `PharmacyTimeSlot`
+* **`custom_home_slot`**: ForeignKey to `PharmacyHomeTiming`
+
+#### `PharmacyMasterOrder` (Table: `pharmacy_master_order`)
+The payment gateway container grouping sub-orders.
+* **`id`**: `UUIDField` (Primary Key)
+* **`patient_id`**: `UUIDField`
+* **`total_amount`**: `DecimalField`
+* **`payment_status`**: `CharField` (`PENDING`, `PAID`, `FAILED`, `REFUNDED`)
+* **`razorpay_order_id`**: `CharField`
+* **`razorpay_payment_id`**: `CharField`
+
+#### `PharmacyOrder` (Table: `pharmacy_order`)
+The sub-order details directed to a single pharmacy.
+* **`id`**: `UUIDField` (Primary Key)
+* **`master_order`**: ForeignKey to `PharmacyMasterOrder`
+* **`patient_id`**: `UUIDField`
+* **`pharmacy`**: ForeignKey to `PharmacyOrganization`
+* **`collection_type`**: `CharField` (`HOME`, `PHARMACY_VISIT`)
+* **`slot`**: ForeignKey to `PharmacyTimeSlot`
+* **`custom_home_slot`**: ForeignKey to `PharmacyHomeTiming`
+* **`appointment_date`**: `DateField`
+* **`patient_name` / `patient_phone` / `patient_email`**: Personal patient details
+* **`patient_age` / `patient_gender` / `patient_address`**: Physical attributes & delivery address
+* **`status`**: `CharField` (`PENDING`, `BOOKED`, `COMPLETED`, `CANCELLED`)
+* **`total_amount`**: `DecimalField`
+* **`referred_by_doctor`**: `CharField` (Doctor Name reference)
+
+#### `PharmacyOrderItem` (Table: `pharmacy_order_item`)
+Individual medicine rows linked to a sub-order.
+* **`order`**: ForeignKey to `PharmacyOrder`
+* **`medicine`**: ForeignKey to `PharmacyMedicine`
+* **`price_at_order`**: `DecimalField` (Locked price)
+* **`status`**: `CharField` (`PENDING`, `COLLECTED`, `PROCESSING`, `COMPLETED`, `FAILED`)
+
+---
+
+### 2.4 Payments & Deliveries
+
+#### `PharmacyPayment` (Table: `pharmacy_payment`)
+Transaction records for audits and reconciliation.
+* **`payer_id`**: `UUIDField` (Payer patient reference)
+* **`reference_type`**: `CharField` (`PHARMACY_ORDER` etc.)
+* **`reference_id`**: `UUIDField` (Linked Order ID)
+* **`amount`**: `DecimalField`
+* **`platform_fee`**: `DecimalField`
+* **`payment_method`**: `CharField` (`UPI`, `CARD`, `NETBANKING`, `WALLET`)
+* **`status`**: `CharField` (`PENDING`, `SUCCESS`, `FAILED`, `REFUNDED`)
+* **`transaction_id`**: `CharField` (Internal Transaction UID)
+* **`gateway_payment_id`**: `CharField` (Razorpay Payment ID)
+* **`idempotency_key`**: `CharField`
+
+#### `PharmacyDelivery` (Table: `pharmacy_order_package_collection`)
+Delivery status tracking.
+* **`pharmacy_order`**: ForeignKey to `PharmacyOrder`
+* **`collection_type`**: `CharField` (`HOME`, `PHARMACY_VISIT`)
+* **`delivery_agent`**: ForeignKey to `PharmacyUser` (Assigned agent)
+* **`delivery_agent_name`**: `CharField`
+* **`scheduled_at`**: `DateTimeField`
+* **`status`**: `CharField` (`SCHEDULED`, `PICKED`, `IN_TRANSIT`, `REACHED_FACILITY`, `COMPLETED`, `FAILED`, `RESCHEDULED`)
+  </script>
+
+  <script type="text/plain" id="doc-api-reference">
+# Pharmacy Module - API Reference
+
+This document maps all the API endpoints available in the Pharmacy module.
+
+## 1. Authentication APIs
+
+Base path: `/api/auth/`
+
+### 1.1 Signup
+* **Endpoint**: `POST /api/auth/signup/`
+* **Access**: Public
+* **Payload**:
+  ```json
+  {
+    "email": "admin@example.com",
+    "password": "SecurePassword123",
+    "name": "John Doe",
+    "phone": "+1234567890",
+    "role": "PHARMACY_ADMIN"
+  }
+  ```
+* **Responses**:
+  * `201 Created`: Signup successful. OTP sent.
+  * `200 OK`: Account already exists but inactive. OTP resent.
+  * `400 Bad Request`: Validation errors.
+
+### 1.2 Verify OTP (Account Activation)
+* **Endpoint**: `POST /api/auth/verify-otp/`
+* **Access**: Public
+* **Payload**:
+  ```json
+  {
+    "email": "admin@example.com",
+    "otp": "123456"
+  }
+  ```
+* **Responses**:
+  * `200 OK`: OTP verified successfully. If the role is `PHARMACY_ADMIN`, a new organization is bootstrapped automatically and linked.
+  * `400 Bad Request`: Invalid or expired OTP.
+
+### 1.3 Login
+* **Endpoint**: `POST /api/auth/login/`
+* **Access**: Public
+* **Payload**:
+  ```json
+  {
+    "email": "admin@example.com",
+    "password": "SecurePassword123",
+    "role": "PHARMACY_ADMIN"
+  }
+  ```
+* **Responses**:
+  * `200 OK`: Returns JWT tokens and active membership.
+    ```json
+    {
+      "access": "eyJhbG...",
+      "refresh": "eyJhbG...",
+      "id": "uuid-string",
+      "role": "PHARMACY_ADMIN",
+      "email": "admin@example.com",
+      "name": "John Doe",
+      "organization": {
+        "id": "org-uuid-string",
+        "name": "John Doe's Pharmacy",
+        "type": "PHARMACY"
+      }
+    }
+    ```
+  * `401 Unauthorized`: Invalid credentials.
+  * `403 Forbidden`: Account not verified or role mismatch.
+
+### 1.4 Get/Update Current User Info
+* **Endpoint**: `GET` / `PATCH` `/api/auth/me/`
+* **Access**: Authenticated (JWT Bearer)
+* **PATCH Payload**:
+  ```json
+  {
+    "name": "John Updated",
+    "phone": "+9876543210"
+  }
+  ```
+* **Responses**:
+  * `200 OK`: Returns user profile data and membership details.
+
+### 1.5 Password Recovery
+* **Request Reset OTP**: `POST /api/auth/send-otp/`
+  * Payload: `{"email": "admin@example.com"}`
+* **Reset Password**: `POST /api/auth/reset-password/`
+  * Payload: `{"email": "user@example.com", "otp": "123456", "new_password": "NewSecurePassword123"}`
+
+### 1.6 Logout
+* **Endpoint**: `POST /api/auth/logout/`
+* **Access**: Authenticated
+* **Payload**: `{"refresh": "refresh_token_here"}`
+
+---
+
+## 2. Organization APIs
+
+Base path: `/api/organizations/`
+
+### 2.1 List Organizations
+* **Endpoint**: `GET /api/organizations/`
+* **Access**: Public / Authenticated
+* **Query Parameters**: `city`, `state`, `type`, `verification_status`
+* **Response**: List of organizations.
+
+### 2.2 User Organizations
+* **Endpoint**: `GET /api/organizations/my-organizations/`
+* **Access**: Authenticated
+* **Response**: List of organizations the active user is a member of.
+
+### 2.3 Update Organization
+* **Endpoint**: `PATCH /api/organizations/<uuid:org_id>/update/`
+* **Access**: Authenticated (Admin role membership required)
+* **Payload**:
+  ```json
+  {
+    "name": "Healthy Pharmacy",
+    "address_line1": "123 Main St",
+    "city": "Boston",
+    "state": "MA",
+    "postal_code": "02108"
+  }
+  ```
+
+---
+
+## 3. Documents & Media APIs
+
+Base path: `/api/documents/`
+
+### 3.1 Upload Entity Document
+* **Endpoint**: `POST /api/documents/entity/upload/`
+* **Access**: Authenticated
+* **Format**: `multipart/form-data`
+* **Payload**:
+  * `file`: (Binary File)
+  * `document_type`: `LICENSE` | `REGISTRATION` | `GALLERY` | `COMPLIANCE`
+  * `app_label`: `organizations` | `pharmacys`
+  * `model`: `pharmacyorganization` | `pharmacymedicine`
+  * `object_id`: Target object's UUID
+* **Response**: `201 Created` with document details.
+
+### 3.2 Verify Document
+* **Endpoint**: `PATCH /api/documents/entity/<uuid:pk>/verify/`
+* **Access**: Authenticated (Platform Admin Only)
+* **Payload**:
+  ```json
+  {
+    "verification_status": "VERIFIED",
+    "rejection_reason": ""
+  }
+  ```
+
+---
+
+## 4. Catalog & Booking APIs (Pharmacys)
+
+Base path: `/api/pharmacys/`
+
+### 4.1 Medicines Catalog
+* **Manage Catalog (Internal)**: `/api/pharmacys/medicines/` (GET, POST, PUT, DELETE)
+* **Public Search (Patients)**: `/api/pharmacys/public-medicines/` (GET)
+  * Query parameters: `search`, `category`, `pharmacy_id`, `ordering`
+
+### 4.2 Booking and Orders
+* **Cart Operations**: `/api/pharmacys/cart/` (GET, POST, DELETE)
+  * Create Payload:
+    ```json
+    {
+      "pharmacy_medicine": "medicine-uuid",
+      "collection_type": "HOME",
+      "appointment_date": "2026-07-20",
+      "custom_home_slot": "slot-uuid"
+    }
+    ```
+* **Patient Sub-Orders**: `/api/pharmacys/user-orders/`
+  * View booked sub-orders and status.
+* **Admin Sub-Orders**: `/api/pharmacys/admin-orders/`
+  * Update sub-order status (`BOOKED`, `COMPLETED`, `CANCELLED`).
+
+---
+
+## 5. Payments APIs
+
+Base path: `/api/payments/`
+
+### 5.1 Initiate Payment
+* **Endpoint**: `POST /api/payments/initiate/`
+* **Access**: Authenticated
+* **Payload**:
+  ```json
+  {
+    "reference_type": "PHARMACY_ORDER",
+    "reference_id": "master-order-uuid",
+    "amount": 1500.00,
+    "currency": "INR"
+  }
+  ```
+* **Response**: `201 Created` returning Razorpay order object details.
+
+### 5.2 Verify Payment
+* **Endpoint**: `POST /api/payments/verify/`
+* **Access**: Authenticated
+* **Payload**:
+  ```json
+  {
+    "razorpay_order_id": "order_xyz123",
+    "razorpay_payment_id": "pay_abc789",
+    "razorpay_signature": "signature_hash_here"
+  }
+  ```
+* **Response**: `200 OK` on successful validation.
+  </script>
+
+  <script type="text/plain" id="doc-frontend-guide">
+# Pharmacy Module - Frontend Developer Guide
+
+This document details the frontend architecture, page routing, and key components of the Pharmacy Next.js application.
+
+## 1. Project Directory Structure
+
+The frontend is a modern Next.js project using TypeScript and Tailwind CSS.
+
+```
+frontend/
+├── src/
+│   ├── app/                    # Next.js App Router
+│   │   ├── layout.tsx          # Root HTML layout and provider wrappers
+│   │   ├── page.tsx            # Main landing/search page
+│   │   └── pharmacy/           # Pharmacy application namespace
+│   │       ├── layout.tsx      # Pharmacy main layout (navigation, notifications)
+│   │       ├── page.tsx        # Pharmacy general workspace
+│   │       ├── login/          # Login page
+│   │       ├── register/       # Registration flow
+│   │       ├── settings/       # Organization and profile settings
+│   │       ├── admin/          # Admin portal
+│   │       ├── operator/       # Operator portal
+│   │       └── staff/          # Staff portal
+│   ├── context/                # Global React Contexts
+│   │   ├── AuthContext.tsx     # Session management and user state
+│   │   └── AuthGuard.tsx       # Route protection middleware
+│   ├── services/               # HTTP client wrappers
+│   │   ├── api.ts              # Core Pharmacy Axios client with auto-refresh interceptors
+│   │   └── collaboration.api.ts# Consultation cross-module API services
+│   └── styles/                 # Global styles
+```
+
+---
+
+## 2. Authentication and Route Security
+
+### 2.1 State Management (`AuthContext.tsx`)
+Authentication state is managed globally through a custom React Context.
+* **`user`**: Stores parsed JSON representation of the logged-in user profile, including their `role`, `email`, `name`, and linked `organization`.
+* **`login(token, userData)`**: Stores JWT access token and user metadata into `localStorage`, sets local state, and refreshes the router.
+* **`logout()`**: Clears all items in `localStorage` and redirects to the landing page `/pharmacy`.
+
+### 2.2 Route Guards (`AuthGuard.tsx`)
+Component-level middleware that inspects user roles and active sessions:
+* Restricts access to `/pharmacy/admin`, `/pharmacy/operator`, and `/pharmacy/staff` based on the logged-in user's role mapping.
+* Redirects unauthenticated users to `/pharmacy/login`.
+
+---
+
+## 3. Dashboard Roles & Routes
+
+The application has custom workspaces for each operational user role:
+
+### 3.1 Admin Portal (`/pharmacy/admin`)
+For Pharmacy Owners and Administrators.
+* **Bookings**: Manage incoming pharmacy orders, approve bookings, and update sub-order statuses.
+* **Staff**: Manage personnel, add staff members, and assign roles (`PHARMACY_STAFF` or `PHARMACY_OPERATOR`).
+* **Schedule**: Setup daily store timings and configure time slots for patient collection.
+* **Payments**: Monitor revenue, manage connected payouts accounts, and track status of transactions/refunds.
+* **Collaboration**: Coordination panel to resolve cross-module activities with referring Doctors.
+
+### 3.2 Operator Portal (`/pharmacy/operator`)
+For counter staff or intake officers.
+* **Bookings Queue**: Review, filter, and modify active orders.
+* **Patient Support**: Log inquiries and coordinate with patients on collection statuses.
+
+### 3.3 Staff Portal (`/pharmacy/staff`)
+For pharmacy technicians or support agents.
+* Work list for picking medicines, uploading verified prescription records, and coordinating deliveries.
+
+---
+
+## 4. API Client Integration
+
+### 4.1 Axios Interceptors (`api.ts`)
+The core HTTP client handles background authorization header injection and silent token rotation:
+* **Request Interceptor**: Automatically attaches the current `access` token as a `Bearer` header for non-public API endpoints.
+* **Response Interceptor**: Listens for `401 Unauthorized` responses with a code of `token_not_valid`. When encountered, it stalls the request, calls `/token/refresh/` using the stored `refresh` token, updates local tokens, and replays the original failed API request.
+  </script>
+
+  <script type="text/plain" id="doc-setup-and-maintenance">
+# Pharmacy Module - Setup and Maintenance Guide
+
+This document outlines the step-by-step setup procedure and ongoing maintenance operations for the Pharmacy Module.
+
+## 1. Local Prerequisites
+
+Ensure the following runtimes are installed on your machine:
+* **Python**: Version 3.10 or higher
+* **Node.js**: Version 18.x or higher (with `npm`)
+* **PostgreSQL**: Version 14 or higher (running and accessible)
+
+---
+
+## 2. Backend Setup (Django)
+
+### Step 2.1: Clone & Establish Environment
+Navigate to the `backend/` directory:
+```bash
+cd backend
+```
+
+Create a python virtual environment and activate it:
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+Install all the required backend dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+### Step 2.2: Setup Environment Variables
+Copy `.env.example` to a new file named `.env`:
+```bash
+cp .env.example .env
+```
+Open `.env` and fill out your local parameters (especially your database connection credentials and API keys).
+
+### Step 2.3: Database Bootstrapping (CRITICAL)
+Before running standard Django migrations, you must run the module's custom database bootstrap script. This script establishes the required isolated tables cloned from the main platform's tables, overrides standard Django schemas with redirecting SQL Views, and inserts fake initial migrations to align Django's tracking state:
+```bash
+python scripts/bootstrap_db.py
+```
+
+### Step 2.4: Apply Migrations & Launch
+Apply the remainder of Django's local migration stack:
+```bash
+python manage.py migrate
+```
+
+Start the backend development server:
+```bash
+python manage.py runserver
+```
+The API is now available at `http://localhost:8000`.
+
+---
+
+## 3. Frontend Setup (Next.js)
+
+### Step 3.1: Install Dependencies
+Navigate to the `frontend/` directory:
+```bash
+cd ../frontend
+```
+
+Install the NPM package dependencies:
+```bash
+npm install
+```
+
+### Step 3.2: Configure Environment Variables
+Copy the frontend example variables file to `.env.local`:
+```bash
+cp .env.example .env.local
+```
+Update the target URL parameters as necessary (e.g. `NEXT_PUBLIC_BACKEND_URL=http://localhost:8000`).
+
+### Step 3.3: Run Development Server
+Start the Next.js development server:
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) in your web browser to access the dashboard portal.
+
+---
+
+## 4. Maintenance Operations
+
+### 4.1 Schema Migrations with SQL Views
+Since the module relies on SQL Views (`django_session`, `auth_group`, `django_content_type`) mapping to prefix tables (`pharmacy_session`, etc.), you must exercise caution when adding or updating tables:
+* If a model changes, verify that any SQL Views targeting it are updated to avoid schema-out-of-sync database errors.
+* Re-run the view definition queries if SQL views get deleted by a migration.
+
+### 4.2 Verifying Key Credentials
+* **Cloudinary**: If uploads fail with `401/403` credentials errors, check your `CLOUDINARY_NAME`, `CLOUDINARY_KEY`, and `CLOUDINARY_SECRET` variables.
+* **Razorpay**: To test payment flows locally, make sure you configure test credentials in `.env` (`rzp_test_...`).
+  </script>
+
+  <script type="text/plain" id="doc-actor-workflows">
+# Pharmacy Module - Actor Workflows
+
+This document outlines the workflows, lifecycles, and capabilities of the different actors interacting with the Pharmacy platform.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Patient
+    actor Operator
+    actor Admin
+    
+    Patient->>Patient: Browse Medicines Catalog
+    Patient->>Patient: Add to Cart & Select Time Slot
+    Patient->>Admin: Checkout & Pay (Razorpay)
+    Admin->>Admin: View Order in Dashboard
+    Admin->>Operator: Assign Order to Operator
+    Operator->>Operator: Package Medicines & Verify Prescription
+    Operator->>Patient: Mark Order Ready / Out for Delivery
+```
+
+---
+
+## 1. Patient Workflow (External Client)
+
+Patients interact with the public-facing pages of the system to purchase medications and schedule collections.
+
+### Workflow Steps:
+1. **Browse Catalog**: The patient searches for required medicines, filters by category or pharmacy, and compares prices.
+2. **Add to Cart**: Adds items to the cart. For each item, the patient specifies the collection type:
+   * **Home Collection**: Delivered directly to the patient's address. The patient selects an active home timing slot.
+   * **Pharmacy Visit**: Collected physically from the store. The patient selects a specific date and time slot.
+3. **Checkout**: The patient initiates payment. A `PharmacyMasterOrder` is created to contain the sub-orders.
+4. **Payment**: The system loads the Razorpay checkout overlay. Once completed, the order status changes to `PAID`/`BOOKED` and notifications are fired.
+5. **Collection/Delivery**: The patient either visits the pharmacy during the selected slot or receives their package at home via an assigned delivery agent.
+
+---
+
+## 2. Pharmacy Admin Workflow (Internal Owner)
+
+Admins own the pharmacy workspace and oversee all business settings, scheduling, catalog management, and personnel.
+
+### Workflow Steps:
+1. **Registration & Bootstrap**: Registers an account with the role `PHARMACY_ADMIN`. Upon verifying their email via OTP, a default `PharmacyOrganization` and matching membership are bootstrapped.
+2. **Profile & Compliance**: Uploads business licenses and registration certificates to the documents upload API for verification by the platform managers.
+3. **Configure Catalog**: Adds, updates, or deletes medicines in their catalog, setting base prices, discounts, and home collection availability.
+4. **Manage Schedule**: Sets daily operation timings and sets maximum booking capacity per time slot.
+5. **Manage Staff**: Dispatches invitations or creates accounts for `PHARMACY_OPERATOR` and `PHARMACY_STAFF` users, binding them to their organization.
+6. **Financial Operations**: Monitors payment records, views payout logs, and initiates refunds for cancelled bookings.
+
+---
+
+## 3. Pharmacy Operator Workflow (Internal Intake)
+
+Operators are administrative clerks handling day-to-day order intakes and patient support.
+
+### Workflow Steps:
+1. **Queue Monitoring**: Reviews the incoming orders queue in real-time.
+2. **Order Approval**: Validates that selected medicines are in stock and verifies reservation times.
+3. **Customer Support**: Handles requests for rescheduling collection slots or updating patient details.
+
+---
+
+## 4. Pharmacy Staff Workflow (Internal Fulfillment)
+
+Staff are floor technicians and delivery coordinators responsible for the physical preparation and dispatch of orders.
+
+### Workflow Steps:
+1. **Preparation**: Picks medicines for active bookings.
+2. **Prescription Verification**: Inspects uploaded patient prescription documents. Staff upload a verified copy of the prescription to the database before the order is finalized.
+3. **Dispatch**: Assigns delivery agents for home collection orders and marks status changes (`PICKED`, `IN_TRANSIT`, `COMPLETED`).
+  </script>
+
+  <script>
+    /* ==========================================================================
+       Interactive Application Logic
+       ========================================================================== */
+    const docs = {
+      'architecture': document.getElementById('doc-architecture').textContent,
+      'api-reference': document.getElementById('doc-api-reference').textContent,
+      'frontend-guide': document.getElementById('doc-frontend-guide').textContent,
+      'setup-and-maintenance': document.getElementById('doc-setup-and-maintenance').textContent,
+      'actor-workflows': document.getElementById('doc-actor-workflows').textContent
+    };
+
+    let activeTab = 'architecture';
+    let searchIndex = [];
+
+    // Initialize Marked parser
+    marked.setOptions({
+      gfm: true,
+      breaks: true,
+      headerIds: true,
+      mangle: false
+    });
+
+    // On Document Load
+    document.addEventListener("DOMContentLoaded", () => {
+      loadPage(activeTab);
+      buildSearchIndex();
+
+      // Close search results if clicked outside
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.search-wrapper')) {
+          document.getElementById('search-results-panel').classList.remove('active');
+        }
+      });
+    });
+
+    // Handle Page Tab Switching
+    function loadPage(tabKey) {
+      activeTab = tabKey;
+
+      // Update sidebar nav highlighting
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+      });
+      document.getElementById(`nav-${tabKey}`).classList.add('active');
+
+      // Get markdown and parse
+      const mdContent = docs[tabKey];
+      const htmlContent = marked.parse(mdContent);
+
+      const contentArea = document.getElementById('content-area');
+      contentArea.innerHTML = htmlContent;
+
+      // Format code blocks for code styling, excluding mermaid diagrams
+      contentArea.querySelectorAll('pre code').forEach((el) => {
+        if (!el.className.includes('mermaid')) {
+          el.className = 'language-javascript'; // Default styling class
+        }
+      });
+
+      // Post-process Mermaid blocks
+      contentArea.querySelectorAll('code.language-mermaid, code.lang-mermaid').forEach((block) => {
+        const pre = block.parentElement;
+        const div = document.createElement('div');
+        div.className = 'mermaid';
+        div.textContent = block.textContent;
+        pre.replaceWith(div);
+      });
+
+      // Render Mermaid diagrams
+      renderMermaid();
+
+      // Populate Table of Contents
+      generateTOC();
+
+      // Scroll content area back to top
+      window.scrollTo(0, 0);
+
+      // Close mobile sidebar if open
+      document.getElementById('sidebar').classList.remove('open');
+    }
+
+    // Dynamic Mermaid Render Utility
+    async function renderMermaid() {
+      if (!window.mermaid) {
+        console.log("Mermaid is not loaded yet. Retrying in 100ms...");
+        setTimeout(renderMermaid, 100);
+        return;
+      }
+      try {
+        if (typeof mermaid.run === 'function') {
+          await mermaid.run({
+            nodes: document.querySelectorAll('.mermaid')
+          });
+        } else if (typeof mermaid.init === 'function') {
+          mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+        }
+      } catch (err) {
+        console.error("Mermaid drawing failed:", err);
+      }
+    }
+
+    // Dynamic Table of Contents Generator
+    function generateTOC() {
+      const tocList = document.getElementById('toc-list-ul');
+      tocList.innerHTML = '';
+
+      const headings = document.getElementById('content-area').querySelectorAll('h2, h3');
+      if (headings.length === 0) {
+        document.getElementById('toc').style.display = 'none';
+        return;
+      }
+
+      document.getElementById('toc').style.display = window.innerWidth >= 1024 ? 'block' : 'none';
+
+      headings.forEach((heading, idx) => {
+        const id = `heading-${idx}`;
+        heading.setAttribute('id', id);
+
+        const li = document.createElement('li');
+        li.className = `toc-item ${heading.tagName.toLowerCase()}`;
+
+        const a = document.createElement('a');
+        a.href = `#${id}`;
+        a.textContent = heading.textContent;
+        a.addEventListener('click', (e) => {
+          e.preventDefault();
+          heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        li.appendChild(a);
+        tocList.appendChild(li);
+      });
+    }
+
+    // Build Search Index from Markdown
+    function buildSearchIndex() {
+      searchIndex = [];
+      for (const [key, content] of Object.entries(docs)) {
+        const lines = content.split('\n');
+        let currentSection = 'Introduction';
+
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (trimmed.startsWith('#')) {
+            currentSection = trimmed.replace(/^#+\s+/, '').trim();
+          } else if (trimmed && !trimmed.startsWith('```') && !trimmed.startsWith('---') && !trimmed.startsWith('*')) {
+            searchIndex.push({
+              page: key,
+              section: currentSection,
+              text: trimmed
+            });
+          }
+        }
+      }
+    }
+
+    // Search Engine
+    function handleSearch(query) {
+      const panel = document.getElementById('search-results-panel');
+      panel.innerHTML = '';
+
+      if (!query.trim()) {
+        panel.classList.remove('active');
+        return;
+      }
+
+      const q = query.toLowerCase();
+      const results = [];
+
+      for (const item of searchIndex) {
+        if (item.text.toLowerCase().includes(q) || item.section.toLowerCase().includes(q)) {
+          results.push(item);
+        }
+        if (results.length >= 10) break; // Limit results list
+      }
+
+      if (results.length === 0) {
+        panel.innerHTML = '<div class="search-result-item" style="color: var(--text-muted);">No matching results found</div>';
+      } else {
+        results.forEach(res => {
+          const itemDiv = document.createElement('div');
+          itemDiv.className = 'search-result-item';
+          itemDiv.onclick = () => {
+            loadPage(res.page);
+            panel.classList.remove('active');
+            document.getElementById('search-box').value = '';
+
+            // Find matching heading or text block and scroll
+            setTimeout(() => {
+              const elements = document.getElementById('content-area').querySelectorAll('h1, h2, h3, p, li');
+              for (const el of elements) {
+                if (el.textContent.includes(res.section) || el.textContent.includes(res.text)) {
+                  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  el.style.backgroundColor = '#fef08a';
+                  setTimeout(() => { el.style.backgroundColor = ''; }, 2000);
+                  break;
+                }
+              }
+            }, 100);
+          };
+
+          // Highlight matching terms
+          const highlightedText = res.text.replace(new RegExp(`(${query})`, 'gi'), '<mark>$1</mark>');
+
+          itemDiv.innerHTML = `
+            <div class="search-result-page">${res.page.replace('-', ' ')}</div>
+            <div class="search-result-section">${res.section}</div>
+            <div class="search-result-text">${highlightedText}</div>
+          `;
+          panel.appendChild(itemDiv);
+        });
+      }
+
+      panel.classList.add('active');
+    }
+
+    // Mobile Navigation Sidebar Toggle
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebar-overlay');
+      const isOpen = sidebar.classList.toggle('open');
+      overlay.classList.toggle('active', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    }
+
+    // Close on nav item click (mobile)
+    document.querySelectorAll('#sidebar button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+          document.getElementById('sidebar').classList.remove('open');
+          document.getElementById('sidebar-overlay').classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+
+    // Close sidebar on resize if window is enlarged
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 768) {
+        document.getElementById('sidebar').classList.remove('open');
+      }
+      generateTOC();
+    });
+  </script>
+</body>
+</html>

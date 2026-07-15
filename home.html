@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PathyaTech — Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      font-family: 'Inter', sans-serif;
+      background: #f0f4ff;
+      color: #1e293b;
+      overflow: hidden;
+    }
+
+    /* Full-height centering wrapper */
+    .page {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 20px;
+      gap: 28px;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99,102,241,0.12) 0%, transparent 70%),
+        #f0f4ff;
+    }
+
+    /* ── Brand header ── */
+    .brand {
+      text-align: center;
+    }
+
+    .logo-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 52px; height: 52px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(99,102,241,0.35);
+      margin-bottom: 12px;
+    }
+
+    .logo-wrap svg { color: #fff; }
+
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(22px, 4vw, 30px);
+      font-weight: 900;
+      color: #0f172a;
+      letter-spacing: -0.8px;
+      line-height: 1.1;
+    }
+
+    .tagline {
+      font-size: 13px;
+      color: #64748b;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    /* ── Grid ── */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      width: 100%;
+      max-width: 560px;
+    }
+
+    /* ── Card ── */
+    .card {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 18px;
+      background: #fff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 14px;
+      text-decoration: none;
+      color: inherit;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.22s, box-shadow 0.22s, transform 0.22s;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--accent);
+      border-radius: 14px 0 0 14px;
+      opacity: 0;
+      transition: opacity 0.22s;
+    }
+
+    .card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 6px 24px var(--glow);
+      transform: translateY(-2px);
+    }
+    .card:hover::before { opacity: 1; }
+
+    .card-icon {
+      font-size: 30px;
+      flex-shrink: 0;
+      line-height: 1;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    }
+
+    .card-body { min-width: 0; }
+
+    .card-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent);
+      margin-bottom: 2px;
+    }
+
+    .card-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #0f172a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-desc {
+      font-size: 11.5px;
+      color: #94a3b8;
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-arrow {
+      margin-left: auto;
+      flex-shrink: 0;
+      color: #cbd5e1;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .card:hover .card-arrow {
+      color: var(--accent);
+      transform: translateX(3px);
+    }
+
+    /* per-card accents */
+    .c-lab      { --accent: #2563eb; --glow: rgba(37,99,235,0.12); }
+    .c-pathya   { --accent: #7c3aed; --glow: rgba(124,58,237,0.12); }
+    .c-pharmacy { --accent: #0d9488; --glow: rgba(13,148,136,0.12); }
+    .c-vendor   { --accent: #d97706; --glow: rgba(217,119,6,0.12); }
+
+    /* ── Footer note ── */
+    .foot {
+      font-size: 11.5px;
+      color: #94a3b8;
+      text-align: center;
+      letter-spacing: 0.2px;
+    }
+
+    /* ── Animate in ── */
+    @keyframes up {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .brand { animation: up 0.4s ease both; }
+    .grid  { animation: up 0.4s 0.1s ease both; }
+    .foot  { animation: up 0.4s 0.2s ease both; }
+
+    /* ── Mobile ── */
+    @media (max-width: 480px) {
+      html, body { overflow: auto; }
+      .page { overflow: auto; height: auto; min-height: 100vh; justify-content: flex-start; padding: 32px 16px; }
+      .grid { grid-template-columns: 1fr; }
+      .card-desc { display: none; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Brand -->
+  <div class="brand">
+    <div class="logo-wrap">
+      <svg width="26" height="26" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 12h6M9 16h6M9 8h6M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/>
+      </svg>
+    </div>
+    <h1>PathyaTech Docs</h1>
+    <p class="tagline">Select a module to open its documentation</p>
+  </div>
+
+  <!-- Project Cards -->
+  <div class="grid">
+
+    <a class="card c-lab" href="lab.html">
+      <div class="card-icon">🧪</div>
+      <div class="card-body">
+        <div class="card-label">Lab Module</div>
+        <div class="card-name">Lab Portal</div>
+        <div class="card-desc">Diagnostics & bookings</div>
+      </div>
+      <svg class="card-arrow" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>
+    </a>
+
+    <a class="card c-pathya" href="pathyatech.html">
+      <div class="card-icon">🏥</div>
+      <div class="card-body">
+        <div class="card-label">Core Platform</div>
+        <div class="card-name">PathyaTech Hub</div>
+        <div class="card-desc">Full platform reference</div>
+      </div>
+      <svg class="card-arrow" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>
+    </a>
+
+    <a class="card c-pharmacy" href="pharmacy.html">
+      <div class="card-icon">💊</div>
+      <div class="card-body">
+        <div class="card-label">Pharmacy</div>
+        <div class="card-name">Pharmacy Portal</div>
+        <div class="card-desc">Medicine & orders</div>
+      </div>
+      <svg class="card-arrow" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>
+    </a>
+
+    <a class="card c-vendor" href="vendor.html">
+      <div class="card-icon">🤝</div>
+      <div class="card-body">
+        <div class="card-label">Vendor</div>
+        <div class="card-name">MedVendor</div>
+        <div class="card-desc">Procurement & RFQs</div>
+      </div>
+      <svg class="card-arrow" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>
+    </a>
+
+  </div>
+
+  <p class="foot">© 2026 PathyaTech &nbsp;·&nbsp; Internal Documentation</p>
+
+</div>
+</body>
+</html>
