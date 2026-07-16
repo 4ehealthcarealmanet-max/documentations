@@ -1,0 +1,2296 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PathyaTech Lab Module Documentation Portal</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Prism.js for Syntax Highlighting -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" id="prism-theme" />
+  
+  <!-- Style Sheet -->
+  <style>
+    :root {
+      /* Colors - Light Theme */
+      --bg-primary: #f8fafc;
+      --bg-secondary: #ffffff;
+      --bg-tertiary: #f1f5f9;
+      --border-color: #e2e8f0;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --accent-color: #2563eb;
+      --accent-hover: #1d4ed8;
+      --accent-light: #eff6ff;
+      --code-bg: #0f172a;
+      --code-text: #f8fafc;
+      --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+      
+      /* Alerts */
+      --alert-note-bg: #eff6ff;
+      --alert-note-border: #bfdbfe;
+      --alert-note-text: #1e40af;
+      --alert-warning-bg: #fffbeb;
+      --alert-warning-border: #fef3c7;
+      --alert-warning-text: #92400e;
+      --alert-important-bg: #faf5ff;
+      --alert-important-border: #f3e8ff;
+      --alert-important-text: #6b21a8;
+      
+      --font-heading: 'Outfit', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --sidebar-width: 280px;
+      --toc-width: 240px;
+    }
+
+    /* Dark mode styling disabled */
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.2s, border-color 0.2s;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-secondary);
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Layout Structure */
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar Styling */
+    .sidebar {
+      width: var(--sidebar-width);
+      background-color: var(--bg-secondary);
+      border-right: 1px solid var(--border-color);
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-header {
+      padding: 24px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .sidebar-header svg {
+      width: 28px;
+      height: 28px;
+      color: var(--accent-color);
+    }
+
+    .sidebar-brand {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--text-primary);
+      letter-spacing: -0.5px;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+    }
+
+    .nav-section {
+      margin-bottom: 24px;
+    }
+
+    .nav-section-title {
+      font-family: var(--font-heading);
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    .nav-list {
+      list-style: none;
+    }
+
+    .nav-item {
+      margin-bottom: 4px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .nav-link:hover {
+      background-color: var(--bg-tertiary);
+      color: var(--text-primary);
+    }
+
+    .nav-link.active {
+      background-color: var(--accent-light);
+      color: var(--accent-color);
+      font-weight: 600;
+    }
+
+    /* Main Area styling */
+    .main-wrapper {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    /* Header Styling */
+    .main-header {
+      height: 70px;
+      background-color: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      position: sticky;
+      top: 0;
+      z-index: 90;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background-color: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 8px 16px;
+      width: 320px;
+      position: relative;
+    }
+
+    .search-box input {
+      border: none;
+      background: none;
+      color: var(--text-primary);
+      outline: none;
+      width: 100%;
+      font-size: 14px;
+    }
+
+    .search-box svg {
+      width: 16px;
+      height: 16px;
+      color: var(--text-muted);
+    }
+
+    .search-shortcut {
+      position: absolute;
+      right: 12px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 2px 6px;
+      font-size: 10px;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .icon-btn {
+      background: none;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-primary);
+      cursor: pointer;
+    }
+
+    .icon-btn:hover {
+      background-color: var(--bg-tertiary);
+    }
+
+    /* Content Area */
+    .content-container {
+      display: flex;
+      padding: 40px;
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      flex: 1;
+    }
+
+    .markdown-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    /* Table of Contents (TOC) */
+    .toc-wrapper {
+      width: var(--toc-width);
+      position: sticky;
+      top: 110px;
+      height: calc(100vh - 150px);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .toc-title {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+    }
+
+    .toc-list {
+      list-style: none;
+      border-left: 1px solid var(--border-color);
+      padding-left: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .toc-link {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      display: block;
+      cursor: pointer;
+    }
+
+    .toc-link:hover, .toc-link.active {
+      color: var(--accent-color);
+    }
+
+    .toc-link.h3-link {
+      padding-left: 12px;
+    }
+
+    /* Hamburger for Mobile */
+    .hamburger-btn {
+      display: none;
+    }
+
+    /* Markdown Elements styling */
+    .markdown-body h1 {
+      font-family: var(--font-heading);
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 24px;
+      letter-spacing: -0.5px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 12px;
+    }
+
+    .markdown-body h2 {
+      font-family: var(--font-heading);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-top: 36px;
+      margin-bottom: 16px;
+      letter-spacing: -0.3px;
+    }
+
+    .markdown-body h3 {
+      font-family: var(--font-heading);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-top: 24px;
+      margin-bottom: 12px;
+    }
+
+    .markdown-body p {
+      margin-bottom: 16px;
+    }
+
+    .markdown-body a {
+      color: var(--accent-color);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .markdown-body a:hover {
+      text-decoration: underline;
+    }
+
+    /* Lists */
+    .markdown-body ul, .markdown-body ol {
+      margin-bottom: 16px;
+      padding-left: 24px;
+    }
+
+    .markdown-body li {
+      margin-bottom: 8px;
+    }
+
+    /* Code Blocks */
+    .markdown-body pre {
+      background-color: var(--code-bg) !important;
+      border-radius: 12px;
+      padding: 18px !important;
+      margin-bottom: 24px;
+      overflow-x: auto;
+      border: 1px solid var(--border-color);
+      position: relative;
+    }
+
+    .markdown-body code {
+      font-family: var(--font-mono);
+      font-size: 13.5px;
+      background-color: var(--bg-tertiary);
+      color: var(--text-primary);
+      padding: 2px 6px;
+      border-radius: 6px;
+    }
+
+    .markdown-body pre code {
+      padding: 0;
+      background: none;
+      color: var(--code-text);
+      display: block;
+    }
+
+    /* Copy Button */
+    .copy-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #9ca3af;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      cursor: pointer;
+      font-family: var(--font-body);
+    }
+
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+    }
+
+    /* Tables */
+    .markdown-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 24px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .markdown-body th, .markdown-body td {
+      border: 1px solid var(--border-color);
+      padding: 12px 16px;
+      text-align: left;
+    }
+
+    .markdown-body th {
+      background-color: var(--bg-tertiary);
+      font-family: var(--font-heading);
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .markdown-body tr:nth-child(even) {
+      background-color: rgba(0, 0, 0, 0.02);
+    }
+
+    /* tr:nth-child dark mode disabled */
+
+    /* Alerts / Callouts */
+    .alert-box {
+      border-left: 4px solid transparent;
+      padding: 16px;
+      border-radius: 0 12px 12px 0;
+      margin-bottom: 24px;
+    }
+
+    .alert-note {
+      background-color: var(--alert-note-bg);
+      border-left-color: var(--accent-color);
+      color: var(--alert-note-text);
+    }
+
+    .alert-note .alert-title {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .alert-warning {
+      background-color: var(--alert-warning-bg);
+      border-left-color: #fbbf24;
+      color: var(--alert-warning-text);
+    }
+
+    .alert-warning .alert-title {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .alert-important {
+      background-color: var(--alert-important-bg);
+      border-left-color: #a855f7;
+      color: var(--alert-important-text);
+    }
+
+    .alert-important .alert-title {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    /* Blockquotes */
+    .markdown-body blockquote {
+      border-left: 4px solid var(--border-color);
+      padding-left: 16px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      font-style: italic;
+    }
+
+    /* Mermaid Wrapper */
+    .mermaid {
+      background-color: var(--bg-secondary) !important;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* Search Result View */
+    .search-results-container {
+      display: none;
+    }
+
+    .search-results-container h1 {
+      margin-bottom: 16px;
+    }
+
+    .search-result-item {
+      padding: 16px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      margin-bottom: 16px;
+      cursor: pointer;
+    }
+
+    .search-result-item:hover {
+      border-color: var(--accent-color);
+      box-shadow: var(--card-shadow);
+    }
+
+    .search-result-title {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .search-result-excerpt {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .search-result-docname {
+      display: inline-block;
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 700;
+      background: var(--accent-light);
+      color: var(--accent-color);
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .toc-wrapper {
+        display: none;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .main-wrapper {
+        margin-left: 0;
+      }
+
+      .main-header {
+        padding: 0 16px;
+      }
+
+      .search-box {
+        width: 180px;
+      }
+
+      .search-shortcut {
+        display: none;
+      }
+
+      .hamburger-btn {
+        display: flex;
+      }
+
+      .content-container {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-container">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+      </svg>
+      <span class="sidebar-brand">PathyaTech Labs</span>
+    </div>
+    
+    <nav class="sidebar-nav">
+      <!-- General section -->
+      <div class="nav-section">
+        <div class="nav-section-title">Core Docs</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a class="nav-link active" onclick="loadDoc('readme')">
+              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+              Getting Started
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="loadDoc('architecture')">
+              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+              Architecture
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="loadDoc('backend')">
+              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+              Backend API Spec
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="loadDoc('frontend')">
+              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+              Frontend Guide
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="loadDoc('setup')">
+              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+              Setup & Run
+            </a>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Integration section -->
+      <div class="nav-section">
+        <div class="nav-section-title">Integration Guides</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a class="nav-link" onclick="loadDoc('collab')">
+              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+              Doctor Collaboration
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="loadDoc('cart')">
+              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+              Cart & Scheduling
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="loadDoc('notif')">
+              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+              Notification Engine
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- Main View -->
+  <div class="main-wrapper">
+    <!-- Header -->
+    <header class="main-header">
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <button class="icon-btn hamburger-btn" onclick="toggleSidebar()">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+        <span id="current-doc-path" style="font-size: 13px; font-family: var(--font-mono); color: var(--text-muted);">/docs/README.md</span>
+      </div>
+      
+      <div class="header-actions">
+        <!-- Search -->
+        <div class="search-box">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+          <input type="text" placeholder="Search documentation..." id="search-input" oninput="handleSearch()">
+          <span class="search-shortcut">/</span>
+        </div>
+        
+        <!-- Light Mode Only -->
+      </div>
+    </header>
+
+    <!-- Content Workspace -->
+    <div class="content-container">
+      <!-- Markdown Render Target -->
+      <article class="markdown-body" id="doc-render-target">
+        <!-- Content gets loaded here -->
+      </article>
+
+      <!-- Search Results Target -->
+      <div class="search-results-container markdown-body" id="search-results-target">
+        <h1>Search Results</h1>
+        <div id="search-results-list"></div>
+      </div>
+
+      <!-- Right TOC -->
+      <aside class="toc-wrapper" id="toc-container">
+        <div class="toc-title">On this page</div>
+        <nav>
+          <ul class="toc-list" id="toc-list-target">
+            <!-- Headers populate here -->
+          </ul>
+        </nav>
+      </aside>
+    </div>
+  </div>
+</div>
+
+<!-- Libraries -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+
+<script>
+  // Mermaid configuration
+  mermaid.initialize({
+    startOnLoad: false,
+    theme: 'default',
+    themeVariables: {
+      primaryColor: '#eff6ff',
+      primaryTextColor: '#0f172a',
+      lineColor: '#2563eb'
+    }
+  });
+
+  // Database of Markdown files (Embedded for file:// compatibility)
+  const DOCS_DATABASE = {
+    readme: {
+      path: "/docs/README.md",
+      content: `
+# 🧪 PathyaTech Lab Module Documentation
+
+Welcome to the official developer and operator documentation for the **PathyaTech Lab Module**. This module is a comprehensive, standalone diagnostic and lab management solution within the PathyaTech healthcare ecosystem. It provides end-to-end features from test discovery and booking to logistics tracking, automated reports, payment processing, and doctor-lab collaboration.
+
+---
+
+## 🗂️ Documentation Directory Map
+
+This documentation suite is organized as follows:
+
+| Document | Description |
+| :--- | :--- |
+| 📖 **[System Architecture](./architecture.md)** | Core design patterns, cross-module authentication, Razorpay payments, notification triggers, and GenericForeignKey document uploads. |
+| 🔌 **[Backend API Reference](./backend-api-reference.md)** | Detailed API specs: Auth, Labs, Booking, Slots, Cart, Reports, Documents, and Collaboration. |
+| 🎨 **[Frontend Developer Guide](./frontend-guide.md)** | Next.js Page hierarchy, components structure, state context, API service client, and responsive design guidelines. |
+| 🛠️ **[Setup & Maintenance](./setup-and-maintenance.md)** | Getting started guide, environment variables setup (\`.env.example\`), database migrations, and operational guidelines. |
+| 🤝 **[Integration: Healthcare Collaboration](./integration-guides/collaboration.md)** | How labs and doctors communicate, post camp/consultation requirements, and exchange real-time messages. |
+| 🛒 **[Integration: Cart & Checkout](./integration-guides/cart-and-checkout.md)** | Scheduling logic at the cart, multi-booking orchestration (sub-ordering), and payment flows. |
+| 🔔 **[Integration: Notifications & Polling](./integration-guides/notifications-and-polling.md)** | Multi-channel messaging (in-app notifications, polling APIs, SendGrid emails, and SMS integration). |
+
+---
+
+## 🚀 Key Functional Modules
+
+\`\`\`mermaid
+graph TD
+    subgraph Frontend [Next.js Web Portal]
+        PublicPage[Public Test Discovery]
+        AdminDashboard[Lab Admin Dashboard]
+        OperatorPortal[Phlebotomist Mobile App]
+    end
+
+    subgraph Backend [Django REST API Service]
+        AuthApp[lab_auth]
+        OrgApp[organizations]
+        LabsApp[labs]
+        PayApp[payments]
+        DocApp[documents]
+    end
+
+    subgraph External [HealthCare Core Backend]
+        HC_Auth[Cross-Module Auth Validation]
+        HC_Doc[Doctor Recommendations]
+        HC_Notif[Patient Notification Polling]
+    end
+
+    PublicPage -->|Browse Tests & Slots| LabsApp
+    AdminDashboard -->|Manage Catalog, Slots, Assign Collectors| LabsApp
+    AdminDashboard -->|Manage Staff| AuthApp
+    AdminDashboard -->|Upload Verification Docs| DocApp
+    OperatorPortal -->|Update Logistics Status| LabsApp
+
+    LabsApp -->|Razorpay Order & Verify| PayApp
+    LabsApp -->|Sync Recommendations / Verify JWT| External
+    HC_Notif -->|Poll Alerts| LabsApp
+\`\`\`
+
+### 1. Public Test Discovery & Slot Management
+Patients can browse and search diagnostic tests by category, price, and lab location. They can view available booking slots (\`LAB_VISIT\` type) or schedule a home sample collection (\`HOME\` type) with flexible slot timings.
+
+### 2. Multi-Appointment Cart & Orchestration
+Unlike standard e-commerce carts, the diagnostic checkout process requires **scheduling at the cart**. Carts can contain tests from different labs or with different visit types, which the backend automatically groups into sub-bookings, generating a single combined payment order.
+
+### 3. Phlebotomist (Collector) Task Force
+A dedicated, mobile-first logistics portal designed for field operators. It guides phlebotomists through a strict sequential workflow:
+$$\\text{SCHEDULED} \\longrightarrow \\text{PICKED} \\longrightarrow \\text{IN\\_TRANSIT} \\longrightarrow \\text{REACHED\\_FACILITY} \\longrightarrow \\text{COMPLETED}$$
+This guarantees high data integrity, accurate logs, and real-time tracking for patients.
+
+### 4. Healthcare Collaboration (Lab-to-Doctor Chat)
+An interactive collaboration portal that allows lab organizations to publish staffing or camp requirements. Doctors from the main HealthCare platform can apply, open conversations, and chat in real-time with lab admins.
+
+---
+
+## 💻 Tech Stack Summary
+
+The Lab module is built as an independent, loosely coupled microservice that interfaces with the main HealthCare platform via pre-shared cryptographic keys (JWT tokens).
+
+### Backend (Django Web Service)
+- **Framework**: Python 3.12, Django 6.x
+- **API Tooling**: Django REST Framework (DRF) 3.16.x, \`djangorestframework_simplejwt\`
+- **Database**: PostgreSQL (\`psycopg2-binary\`) or SQLite for development, managed via Django ORM.
+- **Payment Gateway**: Razorpay REST SDK
+- **File Uploads**: Cloudinary integration (\`cloudinary\`, \`django-cloudinary-storage\`)
+- **API Documentation**: OpenAPI schemas via \`drf-spectacular\` and Swagger via \`drf-yasg\`
+- **Email Delivery**: SendGrid Python SDK
+
+### Frontend (Next.js Application)
+- **Framework**: Next.js 15 (App Router, Tailwind CSS, TypeScript)
+- **HTTP Client**: Axios with interceptors for token validation and automatic JWT refresh
+- **Date Handling**: \`date-fns\` for slot rendering and ISO conversions
+- **Icons**: Material Symbols / Material Icons
+
+---
+
+> [!NOTE]
+> All code changes, backend migrations, and environment configuration variables should strictly follow the instructions in the [Setup & Maintenance Guide](./setup-and-maintenance.md).
+      `
+    },
+    architecture: {
+      path: "/docs/architecture.md",
+      content: `
+# 📖 System Architecture
+
+This document provides a deep dive into the technical architecture, design patterns, data models, and integrations that form the foundation of the PathyaTech Lab Module.
+
+---
+
+## 1. Microservice Separation & Auth Strategy
+
+The Lab Module is designed as a standalone Django microservice. It manages its own database and internal staff accounts (such as Admins, Technicians, and Operators), but delegates Patient and Doctor management to the main HealthCare platform.
+
+### Cross-Module Authentication
+To maintain independence while allowing secure communication, the system uses a shared cryptographic secret key to validate JWT tokens.
+
+\`\`\`
+┌─────────────────────────────────┐        JWT Token        ┌─────────────────────────────────┐
+│       HealthCare Frontend       ├────────────────────────>│           Lab Backend           │
+└────────────────┬────────────────┘                         └────────────────┬────────────────┘
+                 │                                                           │
+                 │ 1. Request Login/JWT                                      │ 3. Decode & Verify
+                 ▼                                                           ▼
+┌─────────────────────────────────┐                         ┌─────────────────────────────────┐
+│     HealthCare Core Backend     │                         │   CrossModuleJWTAuthentication  │
+└─────────────────────────────────┘                         └────────────────┬────────────────┘
+                                                                             │
+                                                                             ▼
+                                                                  Authenticates request as
+                                                                 Patient or Doctor without
+                                                                   local database lookup!
+\`\`\`
+
+- **Authentication Class**: \`CrossModuleJWTAuthentication\` (implemented in \`backend/apps/lab_auth/authentication.py\`).
+- **Mechanism**:
+  1. The incoming request contains \`Authorization: Bearer <token>\`.
+  2. The middleware reads the token and decrypts it using \`settings.CROSS_MODULE_JWT_SECRET\` (shared with the HealthCare platform).
+  3. Instead of querying the local Django User database, it initializes a transient user object: \`CrossModuleUser\`.
+  4. Role validation is performed dynamically from the claims embedded in the JWT payload (e.g., \`role: "PATIENT"\` or \`role: "DOCTOR"\`).
+
+---
+
+## 2. Order & Booking Hierarchy (Sub-Ordering)
+
+To support bookings containing multiple tests across different laboratories or scheduling requirements, the database implements a master-sub order structure.
+
+\`\`\`mermaid
+classDiagram
+    class LabMasterOrder {
+        +UUID id
+        +UUID patient_id
+        +Decimal total_amount
+        +String payment_status
+        +String razorpay_order_id
+        +String razorpay_payment_id
+        +DateTime created_at
+    }
+    class LabBooking {
+        +UUID id
+        +UUID patient_id
+        +String collection_type
+        +Date appointment_date
+        +String status
+        +String patient_address
+        +UUID appointment_id
+        +UUID recommendation_id
+    }
+    class LabBookingItem {
+        +UUID id
+        +Decimal price_at_booking
+        +String status
+    }
+    class LabTest {
+        +UUID id
+        +String name
+        +Decimal price
+    }
+    class LabOrganization {
+        +UUID id
+        +String name
+        +String city
+    }
+
+    LabMasterOrder "1" *-- "many" LabBooking : splits into
+    LabBooking "many" o-- "1" LabOrganization : belongs to
+    LabBooking "1" *-- "many" LabBookingItem : contains
+    LabBookingItem "many" o-- "1" LabTest : maps to
+\`\`\`
+
+1. **\`LabMasterOrder\`**: Acts as the transaction boundary. It tracks the financial lifecycle of the cart (e.g., \`PENDING\` $\\to$ \`PAID\` or \`FAILED\`). It connects directly to Razorpay's API.
+2. **\`LabBooking\` (The Sub-Order)**: Represents a single appointment at a specific lab on a specific date for a specific collection type (\`HOME\` or \`LAB_VISIT\`).
+3. **\`LabBookingItem\`**: Represents an individual test inside a booking. This is where clinical statuses are tracked (e.g. \`COLLECTED\`, \`PROCESSING\`, \`COMPLETED\`).
+
+---
+
+## 3. Phlebotomist Logistics Workflow Engine
+
+For \`HOME\` collections, phlebotomists follow a strict, linear state progression implemented inside \`lab_sample_collection.py\` models and \`lab_booking.py\` views.
+
+\`\`\`mermaid
+stateDiagram-v2
+    [*] --> SCHEDULED : Collector Assigned
+    SCHEDULED --> PICKED : Sample Collected
+    PICKED --> IN_TRANSIT : Moving to Facility
+    IN_TRANSIT --> REACHED_FACILITY : Handed Over to Lab
+    REACHED_FACILITY --> COMPLETED : Results Published
+    
+    SCHEDULED --> FAILED : Collection Missed/Rejected
+    PICKED --> FAILED : Sample Contaminated/Damaged
+    IN_TRANSIT --> FAILED : Transit Exception
+\`\`\`
+
+- **Verification & State Enforcement**: Transition to a new status validates that the previous state was successfully recorded. For instance, a collector cannot mark a sample as \`IN_TRANSIT\` unless the status is currently \`PICKED\`.
+- **Security Constraints**: Status modifications are restricted via permissions (\`IsLabOperator\` class) checking that the authenticated user matches the assigned collector.
+
+---
+
+## 4. Multi-Channel Notification Pipeline
+
+The module implements a reactive event-driven notification architecture triggered by model signals (located in \`backend/apps/labs/signals.py\`).
+
+\`\`\`
+┌─────────────────────────────────┐
+│       Model Save/Update         │
+│ (e.g. Booking PAID or Report)   │
+└────────────────┬────────────────┘
+                 │
+                 ▼
+     [ django.db.models.signals ]
+                 │
+                 ├───────────────────────────────┐
+                 ▼                               ▼
+    ┌────────────────────────┐      ┌────────────────────────┐
+    │  Create In-App Alert   │      │ Send Grid Transactional│
+    │  (LabNotification DB)  │      │         Email          │
+    └────────────┬───────────┘      └────────────────────────┘
+                 │
+                 ▼
+    ┌────────────────────────┐
+    │ External Polling API   │
+    │  (Patient UI updates)  │
+    └────────────────────────┘
+\`\`\`
+
+- **In-App Notifications**: Saved to the local database for retrieval via REST endpoints.
+- **Cross-Module Sync**: When payments are verified, the backend makes an outgoing API request to the main HealthCare platform to mark recommendations as booked.
+- **Transactional Emails**: Dispatched asynchronously via SendGrid during key lifecycle changes:
+  - \`BOOKING_CONFIRMED\`
+  - \`COLLECTION_UPDATE\`
+  - \`REPORT_UPLOADED\`
+  - \`BOOKING_CANCELLED\`
+
+---
+
+## 5. Document Management Architecture
+
+To verify lab profiles, the system uses a general-purpose document upload repository inside \`backend/apps/documents/\`.
+
+- **Generic Foreign Keys**: Using Django's \`ContentType\` framework, a single \`Document\` model is linked dynamically to any model instance (e.g. \`LabOrganization\`, \`UserAddress\`, \`StaffMember\`) without hardcoded foreign keys.
+- **Verification Loop**: 
+  1. Lab Admins upload files as \`multipart/form-data\`.
+  2. The system uploads files to Cloudinary and saves metadata linked to the Organization ID.
+  3. Platform Superadmins view documents and toggle the \`is_verified\` state, which automatically transitions the lab organization's verification status from \`PENDING\` to \`VERIFIED\`.
+      `
+    },
+    backend: {
+      path: "/docs/backend-api-reference.md",
+      content: `
+# 🔌 Backend API Reference
+
+This document serves as the complete, authoritative API reference for the PathyaTech Lab Backend.
+
+* **Base URL**: \`http://localhost:8000\` (development)
+* **Default Content-Type**: \`application/json\`
+
+---
+
+## 🔐 Authorization Headers
+
+1. **Lab Native Users (Admin, Staff, Collector)**:
+   \`\`\`http
+   Authorization: Bearer <lab_auth_token>
+   \`\`\`
+2. **External Users (Patient, Doctor)**:
+   \`\`\`http
+   Authorization: Bearer <healthcare_platform_token>
+   \`\`\`
+
+---
+
+## 1. Authentication & Staff (\`/api/auth/\`)
+
+Handles registration, session management, password recovery, and staff invitations.
+
+### 1.1 Sign Up
+* **Method**: \`POST\`
+* **Endpoint**: \`/api/auth/signup/\`
+* **Access**: Public
+* **Payload**:
+  \`\`\`json
+  {
+    "email": "admin@globaldiagnostic.com",
+    "password": "SecurePassword123",
+    "full_name": "Dr. Ramesh Sharma",
+    "phone_number": "9876543210",
+    "role": "LAB_ADMIN"
+  }
+  \`\`\`
+  *(Valid Roles: \`LAB_ADMIN\`, \`LAB_STAFF\`, \`LAB_OPERATOR\`)*
+
+### 1.2 Login
+* **Method**: \`POST\`
+* **Endpoint**: \`/api/auth/login/\`
+* **Access**: Public
+* **Response (200 OK)**:
+  \`\`\`json
+  {
+    "refresh": "eyJhbGciOi...",
+    "access": "eyJhbGciOi...",
+    "user": {
+      "id": "e44d32a0-bc61-419b-a010-097d9e4a30e1",
+      "email": "admin@globaldiagnostic.com",
+      "full_name": "Dr. Ramesh Sharma",
+      "role": "LAB_ADMIN"
+    }
+  }
+  \`\`\`
+
+### 1.3 Get Current User Profile
+* **Method**: \`GET\`
+* **Endpoint**: \`/api/auth/me/\`
+* **Access**: Authenticated (JWT)
+* **Response (200 OK)**:
+  \`\`\`json
+  {
+    "id": "e44d32a0-bc61-419b-a010-097d9e4a30e1",
+    "email": "admin@globaldiagnostic.com",
+    "full_name": "Dr. Ramesh Sharma",
+    "role": "LAB_ADMIN",
+    "phone_number": "9876543210",
+    "organization": "395d852a-921a-4d32-9cb8-e8cb5be24391"
+  }
+  \`\`\`
+
+### 1.4 Invite Staff
+* **Method**: \`POST\`
+* **Endpoint**: \`/api/auth/staff/\`
+* **Access**: Lab Admin
+* **Payload**:
+  \`\`\`json
+  {
+    "email": "collector.rajesh@globaldiagnostic.com",
+    "full_name": "Rajesh Kumar",
+    "role": "LAB_OPERATOR",
+    "phone_number": "9123456789"
+  }
+  \`\`\`
+
+---
+
+## 2. Lab Profiles (\`/api/organizations/\`)
+
+Manages laboratory settings, addresses, and licensing metadata.
+
+### 2.1 Get My Organizations
+* **Method**: \`GET\`
+* **Endpoint**: \`/api/organizations/my-organizations/\`
+* **Access**: Lab Admin
+* **Response (200 OK)**:
+  \`\`\`json
+  [
+    {
+      "id": "395d852a-921a-4d32-9cb8-e8cb5be24391",
+      "name": "Global Diagnostic Labs",
+      "type": "LAB",
+      "registration_number": "REG-839210",
+      "license_number": "LIC-940212",
+      "address_line1": "123 Medical Avenue",
+      "address_line2": "Opposite General Hospital",
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "postal_code": "400001",
+      "country": "India",
+      "contact_email": "info@globaldiagnostic.com",
+      "contact_phone": "9876543210",
+      "verification_status": "VERIFIED"
+    }
+  ]
+  \`\`\`
+
+### 2.2 Update Lab Profile
+* **Method**: \`PATCH\`
+* **Endpoint**: \`/api/organizations/{org_id}/update/\`
+* **Access**: Lab Admin
+* **Payload**: Any organization fields to update.
+
+---
+
+## 3. Lab Test Catalog (\`/api/labs/tests/\`)
+
+Manages tests, pricing, prep requirements, and turnaround times.
+
+### 3.1 Create Lab Test
+* **Method**: \`POST\`
+* **Endpoint**: \`/api/labs/tests/\`
+* **Access**: Lab Admin
+* **Payload**:
+  \`\`\`json
+  {
+    "name": "Complete Blood Count (CBC)",
+    "category": "Hematology",
+    "description": "Measures red blood cells, white blood cells, platelets, and hemoglobin.",
+    "price": "500.00",
+    "discount_percentage": 10.0,
+    "home_collection_available": true,
+    "preparation_instructions": "Fasting not required.",
+    "turnaround_time": "12 Hours"
+  }
+  \`\`\`
+
+### 3.2 Public Search (Patient discovery)
+* **Method**: \`GET\`
+* **Endpoint**: \`/api/labs/public-tests/\`
+* **Access**: Public
+* **Query Parameters**:
+  * \`search\`: Matches test/lab names
+  * \`lab__city\`: Filter by city name
+  * \`category\`: Filter by category (exact match)
+  * \`home_collection_available\`: \`true\` | \`false\`
+  * \`ordering\`: \`price\` | \`-price\` | \`created_at\`
+* **Response (200 OK)**: Paginated results including nested \`lab\` objects (see \`README.md\`).
+
+---
+
+## 4. Scheduling & Availability (\`/api/labs/slots/\`)
+
+Manages operating hours and generates slots.
+
+### 4.1 Auto-Generate Slots
+* **Method**: \`POST\`
+* **Endpoint**: \`/api/labs/slots/generate-from-availability/\`
+* **Access**: Lab Admin
+* **Payload**:
+  \`\`\`json
+  {
+    "start_date": "2026-06-01",
+    "end_date": "2026-06-07",
+    "interval_minutes": 30,
+    "capacity": 5
+  }
+  \`\`\`
+
+### 4.2 Fetch Available Slots (Patient discovery)
+* **Method**: \`GET\`
+* **Endpoint**: \`/api/labs/public-slots/\`
+* **Access**: Public
+* **Query Parameters**:
+  * \`lab\` (Required): UUID of the lab
+  * \`date\` (Required): YYYY-MM-DD
+* **Response (200 OK)**: Returns list of available slot IDs, hours, capacity, and current booking counts.
+
+---
+
+## 5. Cart Management (\`/api/labs/cart/\`)
+
+A temporary booking staging area for patients.
+
+### 5.1 View Cart Items
+* **Method**: \`GET\`
+* **Endpoint**: \`/api/labs/cart/\`
+* **Access**: Patient (Cross-Module JWT)
+
+### 5.2 Add to Cart
+* **Method**: \`POST\`
+* **Endpoint**: \`/api/labs/cart/\`
+* **Access**: Patient (Cross-Module JWT)
+* **Payload**:
+  \`\`\`json
+  {
+    "lab_test": "304b7ac8-3b91-4cf1-a083-059adbf1b142"
+  }
+  \`\`\`
+
+### 5.3 Update Item Schedule
+* **Method**: \`PATCH\`
+* **Endpoint**: \`/api/labs/cart/{item_id}/\`
+* **Access**: Patient (Cross-Module JWT)
+* **Payload**:
+  \`\`\`json
+  {
+    "collection_type": "HOME",
+    "appointment_date": "2026-06-03",
+    "custom_home_slot": "92da104b-3cb8-4e89-9a28-ee1bcde24021"
+  }
+  \`\`\`
+
+---
+
+## 6. Bookings & Checkout (\`/api/labs/user-bookings/\`)
+
+Processes checkout, verifies payments, and changes logistics statuses.
+
+### 6.1 Cart Checkout
+* **Method**: \`POST\`
+* **Endpoint**: \`/api/labs/user-bookings/checkout/\`
+* **Access**: Patient (Cross-Module JWT)
+* **Payload**:
+  \`\`\`json
+  {
+    "patient_name": "Shivam Likhar",
+    "patient_phone": "9876543210",
+    "patient_email": "shivam@example.com",
+    "patient_age": 25,
+    "patient_gender": "Male",
+    "patient_address": "Flat 302, Green Meadows, Andheri West, Mumbai"
+  }
+  \`\`\`
+* **Response (201 Created)**:
+  \`\`\`json
+  {
+    "booking_id": "f5548c2a-9cb8-42cb-b1b2-1082dcb52304",
+    "razorpay_order_id": "order_OkW19aHlPa92la",
+    "amount": 450.00,
+    "currency": "INR"
+  }
+  \`\`\`
+
+### 6.2 Verify Razorpay Payment
+* **Method**: \`POST\`
+* **Endpoint**: \`/api/labs/user-bookings/{booking_id}/verify-payment/\`
+* **Access**: Patient (Cross-Module JWT)
+* **Payload**:
+  \`\`\`json
+  {
+    "razorpay_payment_id": "pay_OkW8la923asPkl",
+    "razorpay_order_id": "order_OkW19aHlPa92la",
+    "razorpay_signature": "810a9cb842da34e9cf85289cb79e0a0d9b4b72648ec9..."
+  }
+  \`\`\`
+* **Response (200 OK)**:
+  \`\`\`json
+  {
+    "status": "Payment verified and booking confirmed",
+    "booking_status": "BOOKED"
+  }
+  \`\`\`
+
+### 6.3 Assign Collector (Admin Operation)
+* **Method**: \`PATCH\`
+* **Endpoint**: \`/api/labs/admin-bookings/{booking_id}/update-collection/\`
+* **Access**: Lab Admin
+* **Payload**:
+  \`\`\`json
+  {
+    "collector": "d98ab34c-12bc-4401-9a99-b1dca21d0191",
+    "status": "SCHEDULED",
+    "scheduled_at": "2026-06-03T08:30:00Z"
+  }
+  \`\`\`
+
+### 6.4 Upload Diagnostic Report (PDF)
+* **Method**: \`POST\`
+* **Endpoint**: \`/api/labs/admin-bookings/{booking_id}/upload-report/\`
+* **Access**: Lab Admin / Staff
+* **Headers**: \`Content-Type: multipart/form-data\`
+* **Multipart Fields**:
+  * \`report_file\`: Binary PDF / Image
+  * \`lab_test_id\` (Optional): UUID of a specific test inside the booking.
+
+---
+
+## 7. Doctor Portal APIs (\`/api/labs/doctor-reports/\`)
+
+Allows referred doctors to view reports and request AI-powered analysis.
+
+### 7.1 List Shared Reports
+* **Method**: \`GET\`
+* **Endpoint**: \`/api/labs/doctor-reports/\`
+* **Access**: Doctor (Cross-Module JWT)
+* **Response (200 OK)**:
+  \`\`\`json
+  [
+    {
+      "id": "78da12b9-3cba-4efb-a012-decf9108b3c1",
+      "test_name": "Complete Blood Count (CBC)",
+      "patient_name": "Shivam Likhar",
+      "report_url": "https://res.cloudinary.com/pathya/image/upload/v12345/reports/cbc.pdf",
+      "status": "PUBLISHED",
+      "uploaded_at": "2026-06-03T15:20:00Z"
+    }
+  ]
+  \`\`\`
+
+### 7.2 Request AI Clinical Interpretation
+* **Method**: \`POST\`
+* **Endpoint**: \`/api/labs/doctor-reports/{report_id}/ai-analysis/\`
+* **Access**: Doctor (Cross-Module JWT)
+* **Response (200 OK)**:
+  \`\`\`json
+  {
+    "interpretation": "Hemoglobin counts (14.2 g/dL) and white blood cell levels are within normal physiological bounds. No acute infections detected.",
+    "suggestions": [
+      "Maintain active hydration",
+      "Follow up checkup in 6 months"
+    ],
+    "urgency": "LOW"
+  }
+  \`\`\`
+
+---
+
+## 8. Healthcare Collaboration (\`/api/collaboration/\`)
+
+* **Base URL**: \`NEXT_PUBLIC_CONSULTATION_URL\` (HealthCare core backend, Port **9000**).
+* **Access**: Lab Admin (JWT) / Doctor (Cross-Module JWT).
+
+### 8.1 Create Collaboration Post
+* **Method**: \`POST\`
+* **Endpoint**: \`/api/collaboration/posts/\`
+* **Payload**:
+  \`\`\`json
+  {
+    "organization_id": "395d852a-921a-4d32-9cb8-e8cb5be24391",
+    "organization_type": "LAB",
+    "organization_name": "Global Diagnostic Labs",
+    "title": "Onboarding Cardiologist for Cardiac Camp",
+    "description": "Seeking a verified cardiologist for diagnostic interpretation during our upcoming weekend camp.",
+    "specialization_required": "Cardiology",
+    "consultation_mode": "OFFLINE",
+    "location": "Sector 4, Mumbai",
+    "urgency_level": "HIGH",
+    "start_datetime": "2026-06-15T09:00:00Z",
+    "end_datetime": "2026-06-16T18:00:00Z"
+  }
+  \`\`\`
+
+### 8.2 Send Message
+* **Method**: \`POST\`
+* **Endpoint**: \`/api/collaboration/posts/{post_id}/message/\`
+* **Payload**:
+  \`\`\`json
+  {
+    "doctor_id": "19b8cbda-4ca1-409c-ba89-ea21bebc901a",
+    "message": "Hello Dr. Mehta, we reviewed your profile and would love to collaborate."
+  }
+  \`\`\`
+
+### 8.3 Get Messages
+* **Method**: \`GET\`
+* **Endpoint**: \`/api/collaboration/messages/\`
+* **Query Parameters**:
+  * \`conversation_id\`: UUID
+      `
+    },
+    frontend: {
+      path: "/docs/frontend-guide.md",
+      content: `
+# 🎨 Frontend Developer Guide
+
+The PathyaTech Lab Frontend is built on **Next.js 15 (App Router)** and utilizes **Tailwind CSS** for layout styling. It is configured to operate in \`"use client"\` (SPA-like) mode for real-time dashboards and interactive operational consoles.
+
+---
+
+## 🗂️ Project Directory Map
+
+\`\`\`
+frontend/src/
+├── app/
+│   └── lab/
+│       ├── layout.tsx         # Unified Navbar, Sidebar, and Auth Wrapper
+│       ├── page.tsx           # Public Test Discovery & Booking Page
+│       ├── login/             # Native User Login (Admin/Staff/Operator)
+│       ├── register/          # Lab Organization Onboarding
+│       ├── admin/             # Lab Admin Dashboard Panel
+│       │   ├── page.tsx       # Core Metrics (Total Bookings, Revenue, Staff counts)
+│       │   ├── bookings/      # Booking Pipeline & Dossier Views
+│       │   ├── collaboration/ # Collaboration Chat & Post Panel
+│       │   ├── tests/         # Lab Test Catalog (CRUD)
+│       │   ├── schedule/      # Time Slot & Operating Hours Generator
+│       │   └── staff/         # Staff Management Panel
+│       └── operator/          # Mobile-First Phlebotomist Portal
+│           ├── page.tsx       # Assigned Collections List
+│           └── bookings/      # Step-by-step Sequential Status Tracker
+├── context/
+│   └── AuthContext.tsx        # JWT session storage and Profile sync
+├── services/
+│   ├── api.ts                 # Axios Base Config & Auto-Refresh Interceptor
+│   ├── auth.api.ts            # Auth requests
+│   ├── lab.api.ts             # Booking, Slot, Cart & Report transactions
+│   └── collaboration.api.ts   # Chat, Posts & Collaboration Alerts
+└── styles/
+    └── globals.css            # Base Styles & Custom Tailwind Tokens
+\`\`\`
+
+---
+
+## 🔐 Session Management (\`AuthContext\`)
+
+Authentication state is shared globally across the frontend application using a custom React Context.
+
+* **File Location**: \`src/context/AuthContext.tsx\`
+* **Tokens**: Stored in \`localStorage\` as \`access\` (short-lived API access) and \`refresh\` (long-lived rotation token).
+* **Usage**:
+  \`\`\`tsx
+  import { useAuth } from "@/context/AuthContext";
+
+  const MyComponent = () => {
+    const { user, organization, logout } = useAuth();
+    // user contains: id, email, role, full_name
+    // organization contains: id, name, verification_status
+  };
+  \`\`\`
+
+---
+
+## 📡 API Request Pipeline (\`Axios Interceptors\`)
+
+To avoid session expiration issues during active operation, the Axios client automatically intercepts 401 errors, requests a new access token using the refresh token, and retries the original request.
+
+\`\`\`
+Request ──> [Axios Request Interceptor: Attach Bearer Token] ──> API Server
+                                                                   │
+                                                [401 Unauthorized] │
+                                                                   ▼
+Request <── [Axios Response Interceptor: Retry Request] <── [Call /token/refresh/]
+\`\`\`
+
+* **Axios Instance**: Located in \`src/services/api.ts\`.
+* **Important**: If the token refresh API fails or no refresh token exists, the interceptor clears local storage and redirects the user to the landing page \`/lab/login\` immediately.
+
+---
+
+## 🎨 Design System & Responsiveness
+
+The application is styled with a premium, high-contrast Slate and Blue palette. It features subtle hover micro-animations (\`transition-all duration-300 hover:scale-[1.02]\`) and soft glassmorphism.
+
+### 📱 Responsive Layout Conversions (Desktop Table $\\leftrightarrow$ Mobile Cards)
+Admin dashboards are heavily optimized for split views. Tables automatically morph into rich detail cards on smaller viewports.
+
+**Implementation Example:**
+\`\`\`tsx
+{/* Desktop Table View */}
+<div className="hidden md:block overflow-x-auto">
+  <table className="w-full text-left">
+    <thead>
+      <tr className="border-b border-slate-100">
+        <th>Patient</th>
+        <th>Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {bookings.map(b => (
+        <tr key={b.id}>
+          <td>{b.patient_name}</td>
+          <td>{b.appointment_date}</td>
+          <td>{b.status}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+{/* Mobile Cards View */}
+<div className="block md:hidden space-y-4">
+  {bookings.map(b => (
+    <div key={b.id} className="p-4 bg-white border border-slate-100 rounded-2xl shadow-sm">
+      <div className="font-bold">{b.patient_name}</div>
+      <div className="text-slate-500">{b.appointment_date}</div>
+      <span className="badge">{b.status}</span>
+    </div>
+  ))}
+</div>
+\`\`\`
+
+---
+
+## 🛠️ Common UI Best Practices
+
+1. **Defensive Value Extraction**: Since relations from backend API endpoints can arrive either as raw UUID strings or fully nested objects depending on authorization scopes, always extract values defensively:
+   \`\`\`ts
+   const organizationId = typeof org === 'object' ? org.id : org;
+   \`\`\`
+2. **Tabbed Navigation States**: Dashboard pages (such as Scheduling or Collaboration) persist the selected tab inside URL hash tags (\`#posts\`, \`#chat\`) or search parameters (\`?tab=conversations\`) to support browser history navigation.
+3. **Optimistic UI Updates**: During real-time operations like assigning a collector, the frontend updates local state immediately before the network request resolves, reverting back only if a failure occurs.
+      `
+    },
+    setup: {
+      path: "/docs/setup-and-maintenance.md",
+      content: `
+# 🛠️ Setup & Maintenance Guide
+
+Follow this guide to configure, run, and maintain the PathyaTech Lab Module.
+
+---
+
+## 🐍 Backend Configuration & Deployment
+
+### 1. Prerequisites
+- **Python**: Version 3.11 or 3.12
+- **Virtual Environment Tool**: \`venv\` or \`conda\`
+- **Database**: PostgreSQL (Production) or SQLite (Local Development)
+
+### 2. Quickstart Installation
+Navigate to the \`backend\` folder and run the following:
+
+\`\`\`bash
+# Create and activate virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows use \`venv\\Scripts\\activate\`
+
+# Install required modules
+pip install -r requirements.txt
+\`\`\`
+
+### 3. Environment Configuration (\`.env\`)
+Create a file named \`.env\` in the \`backend/\` directory. Refer to the table below for configuration details:
+
+| Variable | Description | Example / Default |
+| :--- | :--- | :--- |
+| \`ALLOWED_HOSTS\` | Array of domains authorized to reach the backend | \`*\` |
+| \`CLOUDINARY_KEY\` | Cloudinary API Key | \`your_cloudinary_key\` |
+| \`CLOUDINARY_NAME\` | Cloudinary Cloud Name | \`your_cloudinary_name\` |
+| \`CLOUDINARY_SECRET\` | Cloudinary API Secret | \`your_cloudinary_secret\` |
+| \`CLOUDINARY_URL\` | Cloudinary Connection URL | \`cloudinary://your_cloudinary_key:your_cloudinary_secret@your_cloudinary_name\` |
+| \`CORS_ALLOWED_ORIGINS\` | Allowed cross-origin sites | \`https://your-main-frontend.vercel.app,http://localhost:3000\` |
+| \`DB_HOST\` | Database host | \`your_db_host\` |
+| \`DB_NAME\` | Database name | \`postgres\` |
+| \`DB_USER\` | Database user | \`your_db_user\` |
+| \`DB_PASSWORD\` | Database password | \`your_db_password\` |
+| \`DB_PORT\` | Database port | \`5432\` |
+| \`DEBUG\` | Toggle debug verbose modes | \`True\` |
+| \`DEFAULT_FROM_EMAIL\` | Default sender address | \`notifications@yourdomain.com\` |
+| \`EMAIL_HOST\` | SMTP server host | \`smtp.gmail.com\` |
+| \`EMAIL_HOST_USER\` | SMTP server user | \`your_email_host_user@gmail.com\` |
+| \`EMAIL_HOST_PASSWORD\` | SMTP server password | \`your_email_host_password\` |
+| \`EMAIL_PORT\` | SMTP port | \`587\` |
+| \`EMAIL_USE_TLS\` | SMTP TLS toggle | \`True\` |
+| \`FRONTEND_URL\` | URL of the frontend client | \`http://localhost:3000\` |
+| \`PLATFORM_RAZORPAY_KEY_ID\` | Platform Razorpay Key ID | \`rzp_test_yourkeyid\` |
+| \`PLATFORM_RAZORPAY_KEY_SECRET\` | Platform Razorpay Key Secret | \`your_razorpay_key_secret\` |
+| \`PLATFORM_RAZORPAY_WEBHOOK_SECRET\` | Platform Razorpay Webhook Secret | \`your_razorpay_webhook_secret\` |
+| \`RAZORPAY_KEY_ID\` | Lab Razorpay Key ID | \`rzp_test_yourkeyid\` |
+| \`RAZORPAY_KEY_SECRET\` | Lab Razorpay Key Secret | \`your_razorpay_key_secret\` |
+| \`RAZORPAY_WEBHOOK_SECRET\` | Lab Razorpay Webhook Secret | \`your_razorpay_webhook_secret\` |
+| \`SECRET_KEY\` | Django cryptographic secret key | \`your_django_secret_key\` |
+| \`SENDGRID_API_KEY\` | SendGrid SMTP key | \`SG.your_sendgrid_api_key\` |
+| \`ZOOM_ACCOUNT_ID\` | Zoom Account ID | \`your_zoom_account_id\` |
+| \`ZOOM_CLIENT_ID\` | Zoom Client ID | \`your_zoom_client_id\` |
+| \`ZOOM_CLIENT_SECRET\` | Zoom Client Secret | \`your_zoom_client_secret\` |
+| \`ZOOM_SECRET_TOKEN\` | Zoom Secret Token | \`your_zoom_secret_token\` |
+
+---
+
+### 4. Database Migrations & Administration
+
+Apply database changes:
+\`\`\`bash
+python manage.py makemigrations
+python manage.py migrate
+\`\`\`
+
+Verify migration status using the built-in checker script:
+\`\`\`bash
+python check_migrations.py
+\`\`\`
+
+Create a superuser account for the Django Administration panel (\`/admin\`):
+\`\`\`bash
+python manage.py createsuperuser
+\`\`\`
+
+### 5. Running the Service
+\`\`\`bash
+# Run local development server
+python manage.py runserver 0.0.0.0:8000
+\`\`\`
+
+---
+
+## ⚡ Frontend Configuration & Run
+
+### 1. Prerequisites
+- **Node.js**: Version 18.x or 20.x
+- **Package Manager**: \`npm\` (included with Node)
+
+### 2. Quickstart Installation
+Navigate to the \`frontend\` folder and run:
+
+\`\`\`bash
+# Install package dependencies
+npm install
+\`\`\`
+
+### 3. Environment Variables (\`.env.local\`)
+Create a file named \`.env.local\` in the \`frontend/\` directory:
+
+\`\`\`env
+# URL for HealthCare core/consultation backend
+NEXT_PUBLIC_CONSULTATION_URL=https://your-main-platform.com
+
+# URL for this Lab Backend Microservice
+NEXT_PUBLIC_BACKEND_URL=https://your-lab-backend.com
+
+# Payment Gateway (Razorpay)
+NEXT_PUBLIC_RAZORPAY_KEY_ID=rzp_test_yourkeyid
+
+# Zoom Meeting integration
+NEXT_PUBLIC_ZOOM_CLIENT_SECRET=your_zoom_client_secret
+\`\`\`
+
+> [!IMPORTANT]
+> The HealthCare backend runs on port **9000**. Ensure the \`NEXT_PUBLIC_CONSULTATION_URL\` is set correctly; otherwise, the Collaboration dashboard will return network errors.
+
+### 4. Running the App
+
+\`\`\`bash
+# Start Next.js development server
+npm run dev
+\`\`\`
+Open [http://localhost:3000/lab](http://localhost:3000/lab) in your browser.
+
+\`\`\`bash
+# Build production bundles
+npm run build
+
+# Start production server
+npm run start
+\`\`\`
+
+---
+
+## 🧹 Maintenance & Troubleshooting
+
+### Clearing Next.js Caches
+If Next.js experiences compilation errors or caching conflicts, clear the cache folders:
+\`\`\`bash
+rm -rf .next node_modules/.cache
+npm run dev
+\`\`\`
+
+### Razorpay Webhook Management
+Ensure your server exposes an endpoint to capture events from Razorpay (e.g. \`POST /api/payments/webhook/razorpay/\`). For local testing, use a tunneling tool like **ngrok**:
+\`\`\`bash
+ngrok http 8000
+\`\`\`
+Update the webhook URL in the Razorpay dashboard with your ngrok URL.
+      `
+    },
+    collab: {
+      path: "/docs/integration-guides/collaboration.md",
+      content: `
+# 🤝 Integration: Healthcare Collaboration
+
+This guide details how to implement and maintain the **Healthcare Collaboration** system, which enables Lab organizations to hire or collaborate with Doctors from the main HealthCare platform.
+
+All collaboration data is hosted on the **HealthCare Core Backend** (default: \`http://localhost:9000\`).
+
+---
+
+## 📡 API Reference & Routes
+
+| Feature | Method | Endpoint | Description |
+| :--- | :--- | :--- | :--- |
+| **Create Post** | \`POST\` | \`/api/collaboration/posts/\` | Publish a recruitment or medical camp requirement |
+| **List Posts** | \`GET\` | \`/api/collaboration/posts/\` | Fetch all posts owned by this organization |
+| **Close Post** | \`POST\` | \`/api/collaboration/posts/{id}/close/\` | Close the post to stop applications |
+| **Send Message** | \`POST\` | \`/api/collaboration/posts/{id}/message/\` | Send a direct message to a doctor |
+| **Conversations** | \`GET\` | \`/api/collaboration/conversations/\` | List conversation threads |
+| **Messages** | \`GET\` | \`/api/collaboration/messages/\` | Fetch all messages within a conversation thread |
+
+---
+
+## 🐛 Critical Data Shape Gotchas & Defensive Coding
+
+The collaboration database uses dynamic serializers. Relationship fields like \`collaboration_post\` or \`doctor\` may be returned as **nested JSON objects** or **flat UUID strings** depending on the endpoint query depth. 
+
+Always implement defensive checks before accessing nested fields.
+
+### 1. Handling \`conversation.collaboration_post\`
+\`\`\`typescript
+// ✅ Safe check to match post IDs
+const postId = typeof conversation.collaboration_post === 'object'
+  ? (conversation.collaboration_post as any).id
+  : conversation.collaboration_post;
+\`\`\`
+
+### 2. Fetching Doctor Names safely
+Sometimes the doctor profile name isn't populated on the user object. Fall back sequentially using this helper:
+\`\`\`typescript
+export const getDoctorName = (conv: any): string => {
+  const doctor = conv?.doctor;
+  const lastMsg = conv?.last_message;
+  return (
+    doctor?.name ||
+    doctor?.full_name ||
+    (typeof lastMsg === 'object' && lastMsg?.sender === doctor?.id ? lastMsg?.sender_name : null) ||
+    doctor?.username ||
+    (typeof lastMsg === 'object' ? lastMsg?.sender_name : null) ||
+    "Verified Doctor"
+  );
+};
+\`\`\`
+
+---
+
+## 💻 Service Layer (\`collaboration.api.ts\`)
+
+Create a service file (\`src/services/collaboration.api.ts\`) with custom request interceptors that inject the patient or lab access token into headers:
+
+\`\`\`typescript
+import axios from "axios";
+
+const CONSULTATION_URL = process.env.NEXT_PUBLIC_CONSULTATION_URL || "http://localhost:9000";
+
+const collabApi = axios.create({
+  baseURL: CONSULTATION_URL,
+  headers: { "Content-Type": "application/json" },
+});
+
+collabApi.interceptors.request.use((config) => {
+  if (typeof window !== "undefined") {
+    const token = localStorage.getItem("access");
+    if (token) {
+      config.headers.Authorization = \`Bearer \${token}\`;
+    }
+  }
+  return config;
+});
+
+export const collaborationService = {
+  createPost: async (postData: any) => {
+    const response = await collabApi.post("/api/collaboration/posts/", postData);
+    return response.data;
+  },
+  getConversations: async () => {
+    const response = await collabApi.get("/api/collaboration/conversations/");
+    return response.data?.results || response.data;
+  },
+  sendMessage: async (postId: string, message: string, doctorId: string) => {
+    const response = await collabApi.post(\`/api/collaboration/posts/\${postId}/message/\`, {
+      message,
+      doctor_id: doctorId,
+    });
+    return response.data;
+  }
+};
+\`\`\`
+
+---
+
+## 🎨 Tabbed Collaboration Dashboard UI
+
+The collaboration panel (\`/lab/admin/collaboration\`) is structured into a 3-tab layout.
+
+\`\`\`
+┌────────────────────────────────────────────────────────┐
+│  [ My Posts ]       [ Conversations ]     [ Alerts ]   │
+├────────────────────────────────────────────────────────┤
+│                                                        │
+│   + New Requirement (Modal Trigger)                    │
+│                                                        │
+│   ┌──────────────────────────────────────────────┐     │
+│   │ Blood Donation Camp - Sector 5               │     │
+│   │ Urgency: HIGH | Status: ACTIVE               │     │
+│   │ [ Close Post ]      [ View Conversations ]   │     │
+│   └──────────────────────────────────────────────┘     │
+└────────────────────────────────────────────────────────┘
+\`\`\`
+
+1. **Tab 1: My Posts**:
+   - Lists all posted camp or consulting roles.
+   - Includes a detailed form inside a popup modal to create new posts.
+2. **Tab 2: Conversations (Split Chat Layout)**:
+   - **Left Panel**: Lists active threads showing Doctor Initial avatars, names, and a snippet of the last message.
+   - **Right Panel**: A real-time message stream with standard blue/slate message bubbles and a message submission box.
+3. **Tab 3: Notifications**:
+   - Lists incoming collaboration alerts (e.g., \`doctor_marked_available\`).
+   - Supports marking notifications as read individually or in bulk.
+      `
+    },
+    cart: {
+      path: "/docs/integration-guides/cart-and-checkout.md",
+      content: `
+# 🛒 Integration: Cart & Checkout
+
+Diagnostic tests differ from retail products: they require physical appointments, preparation instructions (e.g., fasting), and slot scheduling. This document outlines the logic behind the multi-appointment checkout pipeline.
+
+---
+
+## 1. Scheduling at the Cart
+
+Every item added to the cart (\`/api/labs/cart/\`) must have its collection type and timing configured before a checkout can be initiated.
+
+\`\`\`
+       [ Add Test to Cart ] ────> Default: LAB_VISIT (No Date)
+                 │
+                 ▼
+     [ User Configures Item ] ──> Selects: HOME or LAB_VISIT
+                 │
+                 ├───────────────────────────────┐
+                 ▼                               ▼
+      [ If HOME Collection ]           [ If LAB_VISIT ]
+      Select Appointment Date          Select Appointment Date
+      Select Custom Home Slot          Select Lab Slot (TimeSlot)
+                 │                               │
+                 └───────────────┬───────────────┘
+                                 ▼
+                     [ PATCH /api/labs/cart/{id}/ ]
+\`\`\`
+
+### Required Fields for Staging
+* **\`collection_type\`**: \`HOME\` or \`LAB_VISIT\`
+* **\`appointment_date\`**: YYYY-MM-DD
+* **\`slot\`**: UUID (Only if \`collection_type\` is \`LAB_VISIT\`)
+* **\`custom_home_slot\`**: UUID (Only if \`collection_type\` is \`HOME\`)
+
+---
+
+## 2. Order Grouping & Splitting Logic
+
+When checking out, the backend processes all items in the patient's active cart. Since a patient may book different tests from various laboratories or configure different schedule timings, the system performs **sub-ordering**.
+
+### Splitting Criteria
+Cart items are grouped into a single **\`LabBooking\` (Sub-Order)** if and only if they share:
+1. The same **\`LabOrganization\`** (Laboratory)
+2. The same **\`collection_type\`** (\`HOME\` vs \`LAB_VISIT\`)
+3. The same **\`appointment_date\`**
+4. The same **\`slot\`** or **\`custom_home_slot\`**
+
+### Concrete Example Scenario
+A user adds three tests to their cart:
+1. **CBC Test** — Lab Alpha, \`HOME\` Collection, Date: \`2026-06-03\`, Time: \`8-10 AM\`
+2. **Kidney Profile** — Lab Alpha, \`HOME\` Collection, Date: \`2026-06-03\`, Time: \`8-10 AM\`
+3. **Chest X-Ray** — Lab Alpha, \`LAB_VISIT\` Collection, Date: \`2026-06-04\`, Time: \`11:00 AM Slot\`
+
+#### Backend Execution on Checkout:
+- **\`LabMasterOrder\`**: Created for the sum of all tests.
+- **\`LabBooking A\`**: Linked to \`LabMasterOrder\`. Contains **CBC Test** & **Kidney Profile** (Scheduled for Home collection on June 3rd).
+- **\`LabBooking B\`**: Linked to \`LabMasterOrder\`. Contains **Chest X-Ray** (Scheduled for Lab Visit on June 4th).
+
+---
+
+## 3. The Razorpay Checkout Pipeline
+
+\`\`\`
+   Frontend                      Lab Backend                     Razorpay API
+      │                               │                                │
+      │ 1. POST /checkout/            │                                │
+      ├──────────────────────────────>│                                │
+      │                               │ 2. Create Order & Sub-Bookings │
+      │                               │ 3. POST /orders                │
+      │                               ├───────────────────────────────>│
+      │                               │<───────────────────────────────┤
+      │                               │    [ Returns razorpay_order_id ]
+      │ 4. Send Order Info            │                                │
+      │<──────────────────────────────┤                                │
+      │                               │                                │
+      │ 5. Render Payment UI Overlay  │                                │
+      │ 6. Complete Card Payment      │                                │
+      ├───────────────────────────────┼───────────────────────────────>│
+      │<──────────────────────────────┼────────────────────────────────┤
+      │    [ Returns Payment Credentials: ID + Signature ]             │
+      │                               │                                │
+      │ 7. POST /verify-payment/      │                                │
+      ├──────────────────────────────>│                                │
+      │                               │ 8. Cryptographically Validate  │
+      │                               │ 9. Transition State to PAID    │
+      │ 10. Success Response          │                                │
+      │<──────────────────────────────┤                                │
+\`\`\`
+
+### Verification Cryptography
+To prevent client-side payment bypasses, verification is computed on the backend using the SHA-256 HMAC algorithm:
+
+$$\\text{Signature} = \\text{HMAC-SHA256}(\\text{razorpay\\_order\\_id} + "|" + \\text{razorpay\\_payment\\_id}, \\text{RAZORPAY\\_KEY\\_SECRET})$$
+
+If the computed signature matches the header \`razorpay_signature\` sent by the client, the transaction is marked as complete.
+      `
+    },
+    notif: {
+      path: "/docs/integration-guides/notifications-and-polling.md",
+      content: `
+# 🔔 Integration: Notifications & Polling
+
+The PathyaTech Lab Module incorporates a multi-recipient notification system to keep patients, doctors, and lab operators synchronized throughout the booking lifecycle.
+
+---
+
+## 1. Patient Notification Polling (Pull Architecture)
+
+To simplify cross-module communication without requiring incoming webhooks or web socket configurations on the main HealthCare backend, notifications are retrieved using an **outbound polling model**.
+
+\`\`\`
+┌─────────────────────────┐               HTTP GET                ┌─────────────────────────┐
+│   HealthCare Frontend   ├──────────────────────────────────────>│   Lab Module Backend    │
+│  (Polls every 30-60s)   │   ?patient_id=uuid                    │  (Checks notification)  │
+└───────────┬─────────────┘                                       └───────────┬─────────────┘
+            │                                                                 │
+            │ Display Alert Toast                                             │ Return Unread Alerts
+            ▼                                                                 ▼
+┌─────────────────────────┐                                       ┌─────────────────────────┐
+│   HealthCare Frontend   ├──────────────────────────────────────>│   Lab Module Backend    │
+│  (Immediate Acknowledge)│   POST /poll-mark-read/ {patient_id}  │  (Sets is_read = True)  │
+└─────────────────────────┘                                       └─────────────────────────┘
+\`\`\`
+
+### 1.1 Poll Endpoint
+* **Method**: \`GET\`
+* **Endpoint**: \`/api/labs/notifications/poll/\`
+* **Parameters**: \`patient_id\` (UUID of the patient)
+* **Response**: Returns a JSON array of unread notification objects.
+
+### 1.2 Acknowledge (Mark as Read)
+* **Method**: \`POST\`
+* **Endpoint**: \`/api/labs/notifications/poll-mark-read/\`
+* **Payload**:
+  \`\`\`json
+  {
+    "patient_id": "f5548c2a-9cb8-42cb-b1b2-1082dcb52304"
+  }
+  \`\`\`
+
+---
+
+## 2. Notification Types & Definitions
+
+The system defines four notification codes:
+
+| Type | Target Audience | Trigger Event |
+| :--- | :--- | :--- |
+| \`BOOKING_CONFIRMED\` | Patient | Triggered when booking payment is successfully verified. |
+| \`COLLECTION_UPDATE\` | Patient & Collector | Triggered when a collector changes the sample collection status (e.g. \`PICKED\`, \`IN_TRANSIT\`). |
+| \`REPORT_UPLOADED\` | Patient & Doctor | Triggered when a lab operator or admin uploads the PDF results. |
+| \`BOOKING_CANCELLED\` | Patient | Triggered when the booking is cancelled by administrative staff. |
+
+---
+
+## 3. Asynchronous Django Signals & Email Pipelines
+
+Emails are dispatched asynchronously during model state changes using Django's signal framework (\`backend/apps/labs/signals.py\`).
+
+### 3.1 Signal Listeners
+* **\`post_save\` on \`LabBooking\`**: Checks if the status changed from \`PENDING\` to \`BOOKED\` (fires \`BOOKING_CONFIRMED\`) or from any state to \`CANCELLED\` (fires \`BOOKING_CANCELLED\`).
+* **\`post_save\` on \`LabSampleCollection\`**: Listens for collector updates and fires email alerts to the patient containing the collector's name and contact information.
+* **\`post_save\` on \`LabReport\`**: Listens for published PDF uploads and triggers notification emails.
+
+### 3.2 SendGrid Config
+SMTP configurations in \`settings.py\` route all outgoing signals through the SendGrid gateway:
+\`\`\`python
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_API_KEY')
+\`\`\`
+
+---
+
+## 4. SMS & WhatsApp Gateway Hooks (Future Readiness)
+
+The database notification model includes field slots and callback methods to easily attach SMS/WhatsApp notification services (such as Twilio or Interakt).
+
+\`\`\`python
+# Ready-to-use method hooks in apps/labs/models/lab_notification.py
+def dispatch_sms(self):
+    if not self.booking.patient_phone:
+        return
+    # TODO: Integrate Twilio API Client
+    # client.messages.create(body=self.message, to=self.booking.patient_phone, ...)
+    pass
+\`\`\`
+To activate SMS alerts, install the \`twilio\` Python package, configure account credentials in the \`.env\` file, and call \`dispatch_sms()\` inside the signal handler functions.
+      `
+    }
+  };
+
+  let activeDocId = "readme";
+
+  // Preprocess Markdown for Alerts
+  function preprocessAlerts(text) {
+    return text.replace(/>\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\n([\s\S]*?)(?=\n\n|\n[^\s>])/g, (match, type, content) => {
+      const cleanContent = content.replace(/^>\s?/gm, '').trim();
+      return `<div class="alert-box alert-${type.toLowerCase()}">
+        <div class="alert-title">${type}</div>
+        <div class="alert-content">${cleanContent}</div>
+      </div>`;
+    });
+  }
+
+  // Load Document
+  function loadDoc(docId) {
+    if (!DOCS_DATABASE[docId]) return;
+    
+    // Update active state in Nav Links
+    document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+    
+    // Safely set active class on the clicked link
+    let activated = false;
+    if (typeof event !== 'undefined' && event && event.currentTarget && event.currentTarget.classList && event.currentTarget.classList.contains('nav-link')) {
+      event.currentTarget.classList.add('active');
+      activated = true;
+    }
+    
+    if (!activated) {
+      const links = document.querySelectorAll('.nav-link');
+      for (const link of links) {
+        const onclickAttr = link.getAttribute('onclick');
+        if (onclickAttr && onclickAttr.includes(`loadDoc('${docId}')`)) {
+          link.classList.add('active');
+          break;
+        }
+      }
+    }
+
+    activeDocId = docId;
+    const doc = DOCS_DATABASE[docId];
+
+    // Update path header
+    document.getElementById('current-doc-path').innerText = doc.path;
+
+    // Reset search if active
+    document.getElementById('search-input').value = "";
+    document.getElementById('doc-render-target').style.display = "block";
+    document.getElementById('toc-container').style.display = "flex";
+    document.getElementById('search-results-target').style.display = "none";
+
+    // Preprocess and Parse Markdown
+    let preprocessed = preprocessAlerts(doc.content);
+    
+    // Parse using marked.js
+    document.getElementById('doc-render-target').innerHTML = marked.parse(preprocessed);
+
+    // Highlight code blocks
+    Prism.highlightAll();
+
+    // Render Mermaid diagrams
+    renderMermaidDiagrams();
+
+    // Build Table of Contents
+    buildTOC();
+
+    // Close sidebar on mobile
+    document.getElementById('sidebar').classList.remove('open');
+
+    // Scroll to top
+    window.scrollTo({ top: 0 });
+  }
+
+  // Render Mermaid diagrams
+  async function renderMermaidDiagrams() {
+    const diagrams = document.querySelectorAll('.markdown-body pre code.language-mermaid');
+    for (let i = 0; i < diagrams.length; i++) {
+      const codeBlock = diagrams[i];
+      const preBlock = codeBlock.parentElement;
+      const originalCode = codeBlock.textContent;
+
+      const containerId = `mermaid-container-${i}`;
+      const div = document.createElement('div');
+      div.className = 'mermaid';
+      div.id = containerId;
+      div.textContent = originalCode;
+
+      preBlock.replaceWith(div);
+    }
+    
+    try {
+      await mermaid.run({
+        nodes: document.querySelectorAll('.mermaid'),
+      });
+    } catch (e) {
+      console.error("Mermaid parsing error:", e);
+    }
+  }
+
+  // Build Table of Contents
+  function buildTOC() {
+    const container = document.getElementById('toc-list-target');
+    container.innerHTML = "";
+
+    const headers = document.querySelectorAll('#doc-render-target h2, #doc-render-target h3');
+    if (headers.length === 0) {
+      document.getElementById('toc-container').style.display = "none";
+      return;
+    } else {
+      document.getElementById('toc-container').style.display = "flex";
+    }
+
+    headers.forEach((header, index) => {
+      const text = header.textContent;
+      const id = `header-${index}`;
+      header.setAttribute('id', id);
+
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.className = `toc-link ${header.tagName.toLowerCase()}-link`;
+      a.textContent = text;
+      a.onclick = () => {
+        document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Highlight active link
+        document.querySelectorAll('.toc-link').forEach(l => l.classList.remove('active'));
+        a.classList.add('active');
+      };
+      
+      li.appendChild(a);
+      container.appendChild(li);
+    });
+
+    // Add Copy code button to each code block
+    addCopyCodeButtons();
+  }
+
+  // Add Copy Code Buttons to pre code blocks
+  function addCopyCodeButtons() {
+    const preBlocks = document.querySelectorAll('.markdown-body pre');
+    preBlocks.forEach(pre => {
+      if (pre.querySelector('.copy-btn')) return; // Avoid duplication
+      
+      const btn = document.createElement('button');
+      btn.className = 'copy-btn';
+      btn.textContent = 'Copy';
+      btn.onclick = () => {
+        const codeText = pre.querySelector('code').innerText;
+        navigator.clipboard.writeText(codeText).then(() => {
+          btn.textContent = 'Copied!';
+          setTimeout(() => btn.textContent = 'Copy', 2000);
+        });
+      };
+      pre.appendChild(btn);
+    });
+  }
+
+  // Theme Toggle (Disabled - Light Mode Only)
+  function toggleTheme() {
+    // Only light theme is supported now.
+  }
+
+  // Search Logic
+  function handleSearch() {
+    const query = document.getElementById('search-input').value.toLowerCase().trim();
+    const renderTarget = document.getElementById('doc-render-target');
+    const searchTarget = document.getElementById('search-results-target');
+    const searchList = document.getElementById('search-results-list');
+    const tocContainer = document.getElementById('toc-container');
+
+    if (!query) {
+      renderTarget.style.display = "block";
+      tocContainer.style.display = "flex";
+      searchTarget.style.display = "none";
+      return;
+    }
+
+    renderTarget.style.display = "none";
+    tocContainer.style.display = "none";
+    searchTarget.style.display = "block";
+    searchList.innerHTML = "";
+
+    const results = [];
+
+    // Search inside all documents
+    for (const key in DOCS_DATABASE) {
+      const doc = DOCS_DATABASE[key];
+      const lines = doc.content.split('\n');
+      
+      // Look for matches
+      lines.forEach((line, index) => {
+        if (line.toLowerCase().includes(query)) {
+          // Check for header title
+          let docTitle = doc.path.replace('/docs/', '');
+          results.push({
+            key: key,
+            docName: docTitle,
+            lineText: line.trim(),
+            lineNum: index + 1
+          });
+        }
+      });
+    }
+
+    if (results.length === 0) {
+      searchList.innerHTML = `<p style="color: var(--text-muted);">No results found for "${query}"</p>`;
+      return;
+    }
+
+    results.slice(0, 20).forEach(res => {
+      const item = document.createElement('div');
+      item.className = 'search-result-item';
+      item.onclick = () => {
+        // Trigger normal document load
+        const navLink = document.querySelector(`a[onclick="loadDoc('${res.key}')"]`);
+        if (navLink) {
+          navLink.click();
+        } else {
+          loadDoc(res.key);
+        }
+      };
+
+      item.innerHTML = `
+        <div class="search-result-docname">${res.docName}</div>
+        <div class="search-result-title">Line ${res.lineNum}</div>
+        <div class="search-result-excerpt">...${escapeHtml(res.lineText)}...</div>
+      `;
+      searchList.appendChild(item);
+    });
+  }
+
+  // Helper to escape HTML characters
+  function escapeHtml(text) {
+    return text
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  // Toggle Sidebar on Mobile
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('open');
+  }
+
+  // Keyboard Navigation / Focus
+  window.addEventListener('keydown', (e) => {
+    if (e.key === '/') {
+      e.preventDefault();
+      document.getElementById('search-input').focus();
+    }
+  });
+
+  // Set light theme default
+  document.documentElement.setAttribute('data-theme', 'light');
+  const prismTheme = document.getElementById('prism-theme');
+  if (prismTheme) {
+    prismTheme.setAttribute('href', 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css');
+  }
+
+  // Initial Load
+  window.onload = () => {
+    loadDoc('readme');
+  };
+</script>
+
+</body>
+</html>
